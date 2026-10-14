@@ -6,6 +6,8 @@
     "dev": "concurrently -k \"tsx watch server/index.ts\" \"vite\"",
     "build": "vite build",
     "start": "tsx server/index.ts",
+    "build:bookmarklet": "vite build --config vite.bookmarklet.config.ts",
+    "build:pages": "npm run build:bookmarklet && node scripts/build-pages.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

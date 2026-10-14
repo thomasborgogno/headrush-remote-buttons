@@ -1,5 +1,7 @@
 node_modules/
 dist/
+dist-bookmarklet/
+pages-dist/
 dev-dist/
 *.log
 .env

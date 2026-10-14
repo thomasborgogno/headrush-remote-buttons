@@ -40,6 +40,9 @@
     return view === 'ALL' ? [bank('A'), bank('B')] : [bank(view)];
   });
 
+  // Modalità diretta (bookmarklet): l'app gira dentro la pagina del Core, nessun server e nessun wizard
+  const DIRECT = import.meta.env.VITE_DIRECT === '1';
+
   let restoring = false;
   let restoreTried = false;
   let rememberedCurrent = false;
@@ -48,7 +51,7 @@
     proxyDown = false;
     coreDown = false;
     // dopo il primo collegamento riuscito ricorda l'indirizzo anche nel browser
-    if (!rememberedCurrent) {
+    if (!DIRECT && !rememberedCurrent) {
       rememberedCurrent = true;
       getSetup().then((i) => i.reachable && rememberHost(i.host)).catch(() => {});
     }
@@ -70,7 +73,9 @@
   }
 
   function fail(e: unknown) {
-    if (e instanceof HttpError && e.coreUnreachable) {
+    if (DIRECT) {
+      coreDown = true; // qui ogni errore è un errore del Core
+    } else if (e instanceof HttpError && e.coreUnreachable) {
       proxyDown = false;
       coreDown = true;
       if (restoring) return;
@@ -162,7 +167,9 @@
     {/each}
   </nav>
   <span class="tools">
-    <button class="gear" aria-label={t.settings} title={t.settings} onclick={() => (setupOpen = true)}>⚙</button>
+    {#if !DIRECT}
+      <button class="gear" aria-label={t.settings} title={t.settings} onclick={() => (setupOpen = true)}>⚙</button>
+    {/if}
     <span class="dot" class:off={offline} title={offline ? t.coreUnreachable : t.connected}></span>
   </span>
 </header>
@@ -201,7 +208,7 @@
 {#if offline && !setupOpen}
   <div class="banner">
     {proxyDown ? t.proxyUnreachable : t.coreUnreachable}
-    {#if coreDown}<button onclick={() => (setupOpen = true)}>{t.settings}</button>{/if}
+    {#if coreDown && !DIRECT}<button onclick={() => (setupOpen = true)}>{t.settings}</button>{/if}
   </div>
 {/if}
 

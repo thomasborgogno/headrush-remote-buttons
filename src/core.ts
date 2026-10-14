@@ -43,7 +43,24 @@ async function getJson(url: string): Promise<Props> {
   return res.json();
 }
 
+// L'app può scrivere solo lo stato "live" di scene e pedali. Qualsiasi altra proprietà viene rifiutata
+// qui, prima della rete: vale anche se il codice viene eseguito direttamente nella pagina del Core.
+const WRITABLE: Record<string, (v: unknown) => boolean> = {
+  SceneActive: (v) => v === true,
+  SceneState: (v) => v === 0 || v === 1,
+  FootSwitchOn: (v) => typeof v === 'boolean',
+  FootswitchHeld: (v) => typeof v === 'boolean',
+};
+
+export function assertWritable(props: Props) {
+  for (const [key, value] of Object.entries(props)) {
+    const m = key.match(/^(SceneActive|SceneState|FootSwitchOn|FootswitchHeld)(10|[1-9])$/);
+    if (!m || !WRITABLE[m[1]](value)) throw new Error(`Scrittura non consentita: ${key}`);
+  }
+}
+
 async function put(props: Props) {
+  assertWritable(props);
   const res = await fetch(FS, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

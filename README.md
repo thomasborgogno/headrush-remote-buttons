@@ -1,19 +1,54 @@
 # Headrush Remote Buttons
 
-A touch remote for the **Headrush Core**: switch scenes and footswitch effects from a phone or tablet
-(installable as a PWA). Scenes, latch (toggle) and hold (momentary) footswitches, both banks.
+A touch remote for the **Headrush Core**: switch scenes and footswitch effects from a phone or tablet.
+Scenes, latch (toggle) and hold (momentary) footswitches, both banks.
+
+Two ways to use it:
+
+| | Nothing to install (bookmarklet) | Server version |
+|---|---|---|
+| Needs | a browser | Node.js 20+ or Docker, on a PC / Raspberry Pi / NAS |
+| Start | open the Core, run the bookmark | open the server's address |
+| Installable app (PWA) | no | yes |
+| Core address | the page you opened | wizard + network search |
 
 ![status](https://img.shields.io/badge/status-experimental-orange)
 
 > Unofficial project, not affiliated with inalCo / Headrush. It uses the same local HTTP API as the
 > Core's own web editor (`http://<core>/`). That API is undocumented and may change with firmware updates.
 
-## Why is a small server needed?
+## Nothing to install: the bookmarklet
 
-The Core's API does not send CORS headers and only speaks plain HTTP, so a web page hosted elsewhere
-(e.g. GitHub Pages) cannot call it from the browser. This app therefore ships a tiny server that
-serves the UI and forwards the few calls to the Core. It can run on any machine on the same network:
-a PC, a Raspberry Pi, a NAS. Your phone only needs a browser.
+The Core's API sends no CORS headers and only speaks plain HTTP, so a normal web page (e.g. on GitHub
+Pages) cannot call it. The workaround: the Core's own page allows scripts from any HTTPS address, so a
+bookmark can load this app **into the Core's page**, where its API calls are same-origin.
+
+1. Open the project's page (GitHub Pages, deployed by `.github/workflows/pages.yml`) and create the bookmark.
+2. Open the Core's address in your browser and run the bookmark.
+
+The app replaces the official editor on screen (the editor is only hidden). Reload the page to get it back.
+
+**Security.** The script runs inside the Core's page with the same powers as the official editor.
+* The bookmark pins the exact file with an SRI hash: if the hosted file changes, the browser refuses
+  to run it. After an update you must create the bookmark again from the page.
+* The app can only write scene and footswitch state (`SceneActive`, `SceneState`, `FootSwitchOn`,
+  `FootswitchHeld`, footswitches 1-10); anything else is rejected before the request is made
+  (`assertWritable` in `src/core.ts`). It never saves, renames or deletes rigs.
+* Nothing is sent anywhere but to your Core. Only use bookmarklets from pages you trust.
+
+Limits: two steps every time (open the Core, run the bookmark), no installable app, and a firmware
+update that tightens the Core's content security policy would stop it from loading. On iPhone/iPad
+Safari it works from the bookmarks list; on Android Chrome you type the bookmark's name in the address
+bar; Firefox runs it from the bookmarks menu.
+
+```bash
+npm run build:pages   # builds pages-dist/ (bundle + instructions page with the SRI hash)
+```
+
+## Server version
+
+For an installable app. A tiny server serves the UI and forwards the few calls to the Core. It can run
+on any machine on the same network: a PC, a Raspberry Pi, a NAS. Your phone only needs a browser.
 
 ```
 phone / tablet (PWA)  --HTTP-->  Headrush Remote Buttons server  --HTTP-->  Headrush Core

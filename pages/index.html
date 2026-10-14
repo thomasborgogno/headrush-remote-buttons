@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Headrush Remote Buttons</title>
+  <style>
+    :root { color-scheme: dark; --bg: #0b0b0f; --fg: #f2f2f5; --card: #17171d; --line: #2a2a33; --accent: #ff5a1f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
+    main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; display: flex; flex-direction: column; gap: 20px; }
+    h1 { margin: 0; font-size: 1.8rem; }
+    h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    p, ol, ul { margin: 0; }
+    ol, ul { padding-left: 1.3rem; display: flex; flex-direction: column; gap: 6px; }
+    .card { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 18px; }
+    .muted { opacity: .75; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+    input { font: inherit; padding: 10px 12px; border-radius: 10px; border: 2px solid #34343e; background: var(--bg); color: inherit; flex: 1 1 200px; min-width: 0; }
+    a.btn, button { font: inherit; font-weight: 600; padding: 10px 16px; border-radius: 10px; border: 2px solid #34343e;
+      background: #20202a; color: inherit; cursor: pointer; text-decoration: none; display: inline-block; }
+    a.btn.primary { background: var(--accent); border-color: var(--accent); color: #000; cursor: grab; }
+    code, .hash { font-family: ui-monospace, monospace; font-size: .8rem; word-break: break-all; }
+    .warn { border-color: #6b4a1f; }
+    .ok { color: #2ecc71; min-height: 1.5em; }
+    [lang-it] { display: none; }
+    html[data-lang="it"] [lang-it] { display: revert; }
+    html[data-lang="it"] [lang-en] { display: none; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Headrush Remote Buttons</h1>
+  <p class="muted" lang-en>A touch remote for the Headrush Core (scenes and footswitches) that runs in your browser. No app, no server to install.</p>
+  <p class="muted" lang-it>Un telecomando touch per l'Headrush Core (scene e footswitch) che gira nel browser. Nessuna app e nessun server da installare.</p>
+
+  <section class="card">
+    <h2 lang-en>1. Create the bookmarklet</h2><h2 lang-it>1. Crea il segnalibro</h2>
+    <p lang-en>Drag this button to your bookmarks bar (desktop), or press <b>Copy</b>, create a new bookmark and paste the copied text as its address (phone).</p>
+    <p lang-it>Trascina questo pulsante nella barra dei preferiti (computer), oppure premi <b>Copia</b>, crea un nuovo segnalibro e incolla il testo copiato come indirizzo (telefono).</p>
+    <div class="row">
+      <a id="bm" class="btn primary" href="#">Headrush Remote Buttons</a>
+      <button id="copy" type="button"><span lang-en>Copy</span><span lang-it>Copia</span></button>
+      <span id="copied" class="ok" role="status"></span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 lang-en>2. Open your Core and tap the bookmark</h2><h2 lang-it>2. Apri il Core e tocca il segnalibro</h2>
+    <p lang-en>Open the Core's address in the same browser (phone and Core on the same network), then run the bookmark.</p>
+    <p lang-it>Apri l'indirizzo del Core nello stesso browser (telefono e Core sulla stessa rete), poi esegui il segnalibro.</p>
+    <div class="row">
+      <input id="core" placeholder="192.168.1.50  /  HeadRushCore.local" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      <a id="open" class="btn" href="#"><span lang-en>Open the Core</span><span lang-it>Apri il Core</span></a>
+    </div>
+    <ul class="muted" style="margin-top:12px">
+      <li lang-en><b>iPhone / iPad (Safari):</b> open Bookmarks, tap the bookmark.</li>
+      <li lang-it><b>iPhone / iPad (Safari):</b> apri i Preferiti e tocca il segnalibro.</li>
+      <li lang-en><b>Android (Chrome):</b> type the bookmark's name in the address bar and pick it from the suggestions. Firefox lets you run it from the bookmarks menu.</li>
+      <li lang-it><b>Android (Chrome):</b> scrivi il nome del segnalibro nella barra degli indirizzi e sceglilo dai suggerimenti. Firefox permette di eseguirlo dal menu dei segnalibri.</li>
+      <li lang-en><b>Desktop:</b> click the bookmark.</li>
+      <li lang-it><b>Computer:</b> clicca il segnalibro.</li>
+    </ul>
+  </section>
+
+  <section class="card warn">
+    <h2 lang-en>Security: read this</h2><h2 lang-it>Sicurezza: leggi qui</h2>
+    <ul>
+      <li lang-en>The script runs <b>inside the Core's page</b> with the same powers as the official editor. Only use a bookmarklet created on a page you trust, never one given to you by someone else.</li>
+      <li lang-it>Lo script gira <b>dentro la pagina del Core</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.</li>
+      <li lang-en>The bookmarklet pins the exact file by its hash (SRI): if the hosted file ever changes, the browser refuses to run it. The cost: after an update you must create the bookmarklet again from this page.</li>
+      <li lang-it>Il segnalibro fissa il file esatto con la sua impronta (SRI): se il file pubblicato cambia, il browser rifiuta di eseguirlo. Il prezzo: dopo un aggiornamento devi ricreare il segnalibro da questa pagina.</li>
+      <li lang-en>The app can only write scene and footswitch state (scene selection, A/B, latch, hold). It never saves, renames or deletes rigs. Nothing is sent anywhere: it only talks to your Core.</li>
+      <li lang-it>L'app può scrivere solo lo stato di scene e footswitch (selezione scena, A/B, latch, hold). Non salva, rinomina né elimina mai i rig. Non invia nulla altrove: parla solo con il tuo Core.</li>
+      <li lang-en>The Core has no password: anyone on your network can already control it. Unofficial project, not affiliated with Headrush.</li>
+      <li lang-it>Il Core non ha password: chiunque sulla tua rete può già controllarlo. Progetto non ufficiale, non affiliato a Headrush.</li>
+    </ul>
+    <p class="muted" style="margin-top:12px"><span lang-en>File:</span><span lang-it>File:</span> <code id="file"></code><br />SHA-384: <span class="hash" id="sha"></span></p>
+  </section>
+
+  <section class="card">
+    <h2 lang-en>Limits</h2><h2 lang-it>Limiti</h2>
+    <ul>
+      <li lang-en>You have to open the Core and run the bookmark each time. It can't be installed as an app (the Core's page is plain HTTP). For an installable app, run the server version from the repository.</li>
+      <li lang-it>Devi aprire il Core ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina del Core è in HTTP semplice). Per un'app installabile usa la versione con server del repository.</li>
+      <li lang-en>If a firmware update tightens the Core's security policy, the script may stop loading.</li>
+      <li lang-it>Se un aggiornamento del firmware restringe la politica di sicurezza del Core, lo script potrebbe non caricarsi più.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+  const FILE = "__FILE__";
+  const INTEGRITY = "__INTEGRITY__";
+
+  const it = (navigator.language || "").toLowerCase().startsWith("it");
+  document.documentElement.dataset.lang = it ? "it" : "en";
+  document.documentElement.lang = it ? "it" : "en";
+
+  const src = new URL(FILE, location.href).href;
+  const fail = it
+    ? "Headrush Remote Buttons: impossibile caricare o verificare lo script. Ricrea il segnalibro da " + location.href.split("#")[0]
+    : "Headrush Remote Buttons: could not load or verify the script. Create the bookmarklet again from " + location.href.split("#")[0];
+  const code = "javascript:(()=>{var s=document.createElement('script');s.src=" + JSON.stringify(src) +
+    ";s.integrity=" + JSON.stringify(INTEGRITY) + ";s.crossOrigin='anonymous';s.onerror=()=>alert(" + JSON.stringify(fail) +
+    ");document.head.appendChild(s)})();";
+
+  const bm = document.getElementById("bm");
+  bm.href = code;
+  bm.addEventListener("click", (e) => e.preventDefault()); // si trascina, non si clicca da qui
+  document.getElementById("file").textContent = FILE;
+  document.getElementById("sha").textContent = INTEGRITY;
+
+  const copied = document.getElementById("copied");
+  document.getElementById("copy").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      copied.textContent = it ? "Copiato." : "Copied.";
+    } catch {
+      copied.textContent = it ? "Copia non riuscita: tieni premuto il pulsante arancione." : "Copy failed: long-press the orange button.";
+    }
+  });
+
+  const core = document.getElementById("core");
+  const open = document.getElementById("open");
+  try { core.value = localStorage.getItem("core") || ""; } catch {}
+  const update = () => {
+    const raw = core.value.trim().replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
+    open.href = raw ? "http://" + raw + "/" : "#";
+    try { localStorage.setItem("core", raw); } catch {}
+  };
+  core.addEventListener("input", update);
+  update();
+</script>
+</body>
+</html>
