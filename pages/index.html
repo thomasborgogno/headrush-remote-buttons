@@ -9,6 +9,7 @@
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
     main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; display: flex; flex-direction: column; gap: 20px; }
+    .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     h1 { margin: 0; font-size: 1.8rem; }
     h2 { margin: 0 0 8px; font-size: 1.15rem; }
     p, ol, ul { margin: 0; }
@@ -16,79 +17,77 @@
     .card { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 18px; }
     .muted { opacity: .75; }
     .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
-    input { font: inherit; padding: 10px 12px; border-radius: 10px; border: 2px solid #34343e; background: var(--bg); color: inherit; flex: 1 1 200px; min-width: 0; }
+    input, select { font: inherit; padding: 10px 12px; border-radius: 10px; border: 2px solid #34343e; background: var(--bg); color: inherit; }
+    input { flex: 1 1 200px; min-width: 0; }
+    select { flex-shrink: 0; cursor: pointer; }
     a.btn, button { font: inherit; font-weight: 600; padding: 10px 16px; border-radius: 10px; border: 2px solid #34343e;
       background: #20202a; color: inherit; cursor: pointer; text-decoration: none; display: inline-block; }
     a.btn.primary { background: var(--accent); border-color: var(--accent); color: #000; cursor: grab; }
     code, .hash { font-family: ui-monospace, monospace; font-size: .8rem; word-break: break-all; }
     .warn { border-color: #6b4a1f; }
     .ok { color: #2ecc71; min-height: 1.5em; }
-    [lang-it] { display: none; }
-    html[data-lang="it"] [lang-it] { display: revert; }
-    html[data-lang="it"] [lang-en] { display: none; }
+    .gap { margin-top: 12px; }
   </style>
 </head>
 <body>
 <main>
-  <h1>Headrush Remote Buttons</h1>
-  <p class="muted" lang-en>A touch remote for Headrush pedalboards (scenes and footswitches) that runs in your browser. No app, no server to install.</p>
-  <p class="muted" lang-it>Un telecomando touch per le pedaliere Headrush (scene e footswitch) che gira nel browser. Nessuna app e nessun server da installare.</p>
-  <p class="muted" lang-en>Tested only on the Headrush Core. It may work with other models that have the same web editor (Flex Prime, Pedalboard), but that is untested.</p>
-  <p class="muted" lang-it>Testato solo su Headrush Core. Potrebbe funzionare con altri modelli che hanno lo stesso editor web (Flex Prime, Pedalboard), ma non è stato provato.</p>
+  <div class="top">
+    <h1>Headrush Remote Buttons</h1>
+    <select id="lang" aria-label="Language">
+      <option value="en">English</option>
+      <option value="it">Italiano</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+      <option value="de">Deutsch</option>
+      <option value="pt">Português</option>
+      <option value="ja">日本語</option>
+      <option value="zh">中文</option>
+    </select>
+  </div>
+  <p class="muted" data-i18n="tagline">A touch remote for Headrush pedalboards (scenes and footswitches) that runs in your browser. No app, no server to install.</p>
+  <p class="muted" data-i18n="tested">Tested only on the Headrush Core. It may work with other models that have the same web editor (Flex Prime, Pedalboard), but that is untested.</p>
 
   <section class="card">
-    <h2 lang-en>1. Create the bookmarklet</h2><h2 lang-it>1. Crea il segnalibro</h2>
-    <p lang-en>Drag this button to your bookmarks bar (desktop), or press <b>Copy</b>, create a new bookmark and paste the copied text as its address (phone).</p>
-    <p lang-it>Trascina questo pulsante nella barra dei preferiti (computer), oppure premi <b>Copia</b>, crea un nuovo segnalibro e incolla il testo copiato come indirizzo (telefono).</p>
+    <h2 data-i18n="s1Title">1. Create the bookmarklet</h2>
+    <p data-i18n="s1Text">Drag this button to your bookmarks bar (desktop), or press <b>Copy</b>, create a new bookmark and paste the copied text as its address (phone).</p>
     <div class="row">
       <a id="bm" class="btn primary" href="#">Headrush Remote Buttons</a>
-      <button id="copy" type="button"><span lang-en>Copy</span><span lang-it>Copia</span></button>
+      <button id="copy" type="button" data-i18n="copy">Copy</button>
       <span id="copied" class="ok" role="status"></span>
     </div>
   </section>
 
   <section class="card">
-    <h2 lang-en>2. Open your Headrush and tap the bookmark</h2><h2 lang-it>2. Apri il tuo Headrush e tocca il segnalibro</h2>
-    <p lang-en>Type your Headrush's IP address, open it in the same browser (phone and Headrush on the same network), then run the bookmark. The address is remembered on this device.</p>
-    <p lang-it>Scrivi l'indirizzo IP del tuo Headrush e aprilo nello stesso browser (telefono e Headrush sulla stessa rete), poi esegui il segnalibro. L'indirizzo viene ricordato su questo dispositivo.</p>
+    <h2 data-i18n="s2Title">2. Open your Headrush and tap the bookmark</h2>
+    <p data-i18n="s2Text">Type your Headrush's IP address, open it in the same browser (phone and Headrush on the same network), then run the bookmark. The address is remembered on this device.</p>
     <div class="row">
       <input id="host" placeholder="192.168.1.50" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" />
-      <a id="open" class="btn" href="#"><span lang-en>Open</span><span lang-it>Apri</span></a>
+      <a id="open" class="btn" href="#" data-i18n="open">Open</a>
     </div>
-    <p class="muted" style="margin-top:12px" lang-en><b>Don't know the IP?</b> This page can't search for it (browsers don't allow a secure page to scan your network). Look in the pedalboard's Wi-Fi/network settings, or in your router's list of connected devices (usually a device named "Headrush").</p>
-    <p class="muted" style="margin-top:12px" lang-it><b>Non conosci l'IP?</b> Questa pagina non può cercarlo (i browser non permettono a una pagina sicura di scansionare la tua rete). Guardalo nelle impostazioni Wi-Fi/rete della pedaliera, oppure nell'elenco dei dispositivi connessi del router (di solito un dispositivo chiamato "Headrush").</p>
-    <ul class="muted" style="margin-top:12px">
-      <li lang-en><b>iPhone / iPad (Safari):</b> open Bookmarks, tap the bookmark.</li>
-      <li lang-it><b>iPhone / iPad (Safari):</b> apri i Preferiti e tocca il segnalibro.</li>
-      <li lang-en><b>Android (Chrome):</b> type the bookmark's name in the address bar and pick it from the suggestions. Firefox lets you run it from the bookmarks menu.</li>
-      <li lang-it><b>Android (Chrome):</b> scrivi il nome del segnalibro nella barra degli indirizzi e sceglilo dai suggerimenti. Firefox permette di eseguirlo dal menu dei segnalibri.</li>
-      <li lang-en><b>Desktop:</b> click the bookmark.</li>
-      <li lang-it><b>Computer:</b> clicca il segnalibro.</li>
+    <p class="muted gap" data-i18n="ipHelp"><b>Don't know the IP?</b> This page can't search for it (browsers don't allow a secure page to scan your network). Look in the pedalboard's Wi-Fi/network settings, or in your router's list of connected devices (usually a device named "Headrush").</p>
+    <ul class="muted gap">
+      <li data-i18n="ios"><b>iPhone / iPad (Safari):</b> open Bookmarks, tap the bookmark.</li>
+      <li data-i18n="android"><b>Android (Chrome):</b> type the bookmark's name in the address bar and pick it from the suggestions. Firefox lets you run it from the bookmarks menu.</li>
+      <li data-i18n="desktop"><b>Desktop:</b> click the bookmark.</li>
     </ul>
   </section>
 
   <section class="card warn">
-    <h2 lang-en>Security: read this</h2><h2 lang-it>Sicurezza: leggi qui</h2>
+    <h2 data-i18n="secTitle">Security: read this</h2>
     <ul>
-      <li lang-en>The script runs <b>inside your Headrush's own page</b> with the same powers as the official editor. Only use a bookmarklet created on a page you trust, never one given to you by someone else.</li>
-      <li lang-it>Lo script gira <b>dentro la pagina del tuo Headrush</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.</li>
-      <li lang-en>The bookmarklet pins the exact file by its hash (SRI): if the hosted file ever changes, the browser refuses to run it. The cost: after an update you must create the bookmarklet again from this page.</li>
-      <li lang-it>Il segnalibro fissa il file esatto con la sua impronta (SRI): se il file pubblicato cambia, il browser rifiuta di eseguirlo. Il prezzo: dopo un aggiornamento devi ricreare il segnalibro da questa pagina.</li>
-      <li lang-en>The app can only write scene and footswitch state (scene selection, A/B, latch, hold). It never saves, renames or deletes rigs. Nothing is sent anywhere: it only talks to your Headrush.</li>
-      <li lang-it>L'app può scrivere solo lo stato di scene e footswitch (selezione scena, A/B, latch, hold). Non salva, rinomina né elimina mai i rig. Non invia nulla altrove: parla solo con il tuo Headrush.</li>
-      <li lang-en>The Headrush has no password: anyone on your network can already control it. Unofficial project, not affiliated with Headrush.</li>
-      <li lang-it>L'Headrush non ha password: chiunque sulla tua rete può già controllarlo. Progetto non ufficiale, non affiliato a Headrush.</li>
+      <li data-i18n="sec1">The script runs <b>inside your Headrush's own page</b> with the same powers as the official editor. Only use a bookmarklet created on a page you trust, never one given to you by someone else.</li>
+      <li data-i18n="sec2">The bookmarklet pins the exact file by its hash (SRI): if the hosted file ever changes, the browser refuses to run it. The cost: after an update you must create the bookmarklet again from this page.</li>
+      <li data-i18n="sec3">The app can only write scene and footswitch state (scene selection, A/B, latch, hold). It never saves, renames or deletes rigs. Nothing is sent anywhere: it only talks to your Headrush.</li>
+      <li data-i18n="sec4">The Headrush has no password: anyone on your network can already control it. Unofficial project, not affiliated with Headrush.</li>
     </ul>
-    <p class="muted" style="margin-top:12px"><span lang-en>File:</span><span lang-it>File:</span> <code id="file"></code><br />SHA-384: <span class="hash" id="sha"></span></p>
+    <p class="muted gap"><span data-i18n="file">File:</span> <code id="file"></code><br />SHA-384: <span class="hash" id="sha"></span></p>
   </section>
 
   <section class="card">
-    <h2 lang-en>Limits</h2><h2 lang-it>Limiti</h2>
+    <h2 data-i18n="limTitle">Limits</h2>
     <ul>
-      <li lang-en>You have to open the Headrush and run the bookmark each time. It can't be installed as an app (the Headrush page is plain HTTP).</li>
-      <li lang-it>Devi aprire l'Headrush ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina dell'Headrush è in HTTP semplice).</li>
-      <li lang-en>If a firmware update tightens the device's security policy, the script may stop loading.</li>
-      <li lang-it>Se un aggiornamento del firmware restringe la politica di sicurezza del dispositivo, lo script potrebbe non caricarsi più.</li>
+      <li data-i18n="lim1">You have to open the Headrush and run the bookmark each time. It can't be installed as an app (the Headrush page is plain HTTP).</li>
+      <li data-i18n="lim2">If a firmware update tightens the device's security policy, the script may stop loading.</li>
     </ul>
   </section>
 </main>
@@ -97,36 +96,235 @@
   const FILE = "__FILE__";
   const INTEGRITY = "__INTEGRITY__";
 
-  const it = (navigator.language || "").toLowerCase().startsWith("it");
-  document.documentElement.dataset.lang = it ? "it" : "en";
-  document.documentElement.lang = it ? "it" : "en";
+  // Traduzioni. L'inglese è anche il testo già presente nell'HTML (resta leggibile senza JavaScript).
+  const T = {
+    en: {},
+    it: {
+      tagline: `Un telecomando touch per le pedaliere Headrush (scene e footswitch) che gira nel browser. Nessuna app e nessun server da installare.`,
+      tested: `Testato solo su Headrush Core. Potrebbe funzionare con altri modelli che hanno lo stesso editor web (Flex Prime, Pedalboard), ma non è stato provato.`,
+      s1Title: `1. Crea il segnalibro`,
+      s1Text: `Trascina questo pulsante nella barra dei preferiti (computer), oppure premi <b>Copia</b>, crea un nuovo segnalibro e incolla il testo copiato come indirizzo (telefono).`,
+      copy: `Copia`, copied: `Copiato.`, copyFail: `Copia non riuscita: tieni premuto il pulsante arancione.`,
+      s2Title: `2. Apri il tuo Headrush e tocca il segnalibro`,
+      s2Text: `Scrivi l'indirizzo IP del tuo Headrush e aprilo nello stesso browser (telefono e Headrush sulla stessa rete), poi esegui il segnalibro. L'indirizzo viene ricordato su questo dispositivo.`,
+      open: `Apri`,
+      ipHelp: `<b>Non conosci l'IP?</b> Questa pagina non può cercarlo (i browser non permettono a una pagina sicura di scansionare la tua rete). Guardalo nelle impostazioni Wi-Fi/rete della pedaliera, oppure nell'elenco dei dispositivi connessi del router (di solito un dispositivo chiamato "Headrush").`,
+      ios: `<b>iPhone / iPad (Safari):</b> apri i Preferiti e tocca il segnalibro.`,
+      android: `<b>Android (Chrome):</b> scrivi il nome del segnalibro nella barra degli indirizzi e sceglilo dai suggerimenti. Firefox permette di eseguirlo dal menu dei segnalibri.`,
+      desktop: `<b>Computer:</b> clicca il segnalibro.`,
+      secTitle: `Sicurezza: leggi qui`,
+      sec1: `Lo script gira <b>dentro la pagina del tuo Headrush</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.`,
+      sec2: `Il segnalibro fissa il file esatto con la sua impronta (SRI): se il file pubblicato cambia, il browser rifiuta di eseguirlo. Il prezzo: dopo un aggiornamento devi ricreare il segnalibro da questa pagina.`,
+      sec3: `L'app può scrivere solo lo stato di scene e footswitch (selezione scena, A/B, latch, hold). Non salva, rinomina né elimina mai i rig. Non invia nulla altrove: parla solo con il tuo Headrush.`,
+      sec4: `L'Headrush non ha password: chiunque sulla tua rete può già controllarlo. Progetto non ufficiale, non affiliato a Headrush.`,
+      file: `File:`,
+      limTitle: `Limiti`,
+      lim1: `Devi aprire l'Headrush ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina dell'Headrush è in HTTP semplice).`,
+      lim2: `Se un aggiornamento del firmware restringe la politica di sicurezza del dispositivo, lo script potrebbe non caricarsi più.`,
+      fail: `Headrush Remote Buttons: impossibile caricare o verificare lo script. Ricrea il segnalibro da `,
+    },
+    es: {
+      tagline: `Un mando táctil para pedaleras Headrush (escenas y footswitches) que funciona en tu navegador. Sin aplicación ni servidor que instalar.`,
+      tested: `Probado solo en el Headrush Core. Puede funcionar con otros modelos que tengan el mismo editor web (Flex Prime, Pedalboard), pero no se ha probado.`,
+      s1Title: `1. Crea el marcador`,
+      s1Text: `Arrastra este botón a tu barra de marcadores (ordenador), o pulsa <b>Copiar</b>, crea un marcador nuevo y pega el texto copiado como dirección (móvil).`,
+      copy: `Copiar`, copied: `Copiado.`, copyFail: `No se pudo copiar: mantén pulsado el botón naranja.`,
+      s2Title: `2. Abre tu Headrush y toca el marcador`,
+      s2Text: `Escribe la dirección IP de tu Headrush y ábrela en el mismo navegador (móvil y Headrush en la misma red); después ejecuta el marcador. La dirección se recuerda en este dispositivo.`,
+      open: `Abrir`,
+      ipHelp: `<b>¿No conoces la IP?</b> Esta página no puede buscarla (los navegadores no permiten que una página segura analice tu red). Búscala en los ajustes de Wi-Fi/red de la pedalera o en la lista de dispositivos conectados de tu router (normalmente un dispositivo llamado "Headrush").`,
+      ios: `<b>iPhone / iPad (Safari):</b> abre Marcadores y toca el marcador.`,
+      android: `<b>Android (Chrome):</b> escribe el nombre del marcador en la barra de direcciones y elígelo entre las sugerencias. Firefox permite ejecutarlo desde el menú de marcadores.`,
+      desktop: `<b>Ordenador:</b> haz clic en el marcador.`,
+      secTitle: `Seguridad: léelo`,
+      sec1: `El script se ejecuta <b>dentro de la propia página de tu Headrush</b> con los mismos permisos que el editor oficial. Usa solo un marcador creado en una página de confianza, nunca uno que te haya dado otra persona.`,
+      sec2: `El marcador fija el archivo exacto mediante su huella (SRI): si el archivo publicado cambia, el navegador se niega a ejecutarlo. A cambio, tras una actualización tendrás que crear el marcador de nuevo desde esta página.`,
+      sec3: `La app solo puede escribir el estado de escenas y footswitches (selección de escena, A/B, latch, hold). Nunca guarda, renombra ni elimina rigs. No envía nada a ningún sitio: solo habla con tu Headrush.`,
+      sec4: `El Headrush no tiene contraseña: cualquiera en tu red ya puede controlarlo. Proyecto no oficial, sin relación con Headrush.`,
+      file: `Archivo:`,
+      limTitle: `Límites`,
+      lim1: `Tienes que abrir el Headrush y ejecutar el marcador cada vez. No se puede instalar como aplicación (la página del Headrush usa HTTP sin cifrar).`,
+      lim2: `Si una actualización del firmware endurece la política de seguridad del dispositivo, el script podría dejar de cargarse.`,
+      fail: `Headrush Remote Buttons: no se pudo cargar o verificar el script. Crea el marcador de nuevo desde `,
+    },
+    fr: {
+      tagline: `Une télécommande tactile pour les pédaliers Headrush (scènes et footswitches) qui fonctionne dans votre navigateur. Aucune appli ni serveur à installer.`,
+      tested: `Testé uniquement sur le Headrush Core. Il peut fonctionner avec d'autres modèles dotés du même éditeur web (Flex Prime, Pedalboard), mais cela n'a pas été vérifié.`,
+      s1Title: `1. Créez le favori`,
+      s1Text: `Faites glisser ce bouton dans votre barre de favoris (ordinateur), ou appuyez sur <b>Copier</b>, créez un nouveau favori et collez le texte copié comme adresse (téléphone).`,
+      copy: `Copier`, copied: `Copié.`, copyFail: `Échec de la copie : appuyez longuement sur le bouton orange.`,
+      s2Title: `2. Ouvrez votre Headrush et touchez le favori`,
+      s2Text: `Saisissez l'adresse IP de votre Headrush et ouvrez-la dans le même navigateur (téléphone et Headrush sur le même réseau), puis lancez le favori. L'adresse est mémorisée sur cet appareil.`,
+      open: `Ouvrir`,
+      ipHelp: `<b>Vous ne connaissez pas l'IP ?</b> Cette page ne peut pas la chercher (les navigateurs interdisent à une page sécurisée d'analyser votre réseau). Cherchez-la dans les réglages Wi-Fi/réseau du pédalier ou dans la liste des appareils connectés de votre routeur (généralement un appareil nommé « Headrush »).`,
+      ios: `<b>iPhone / iPad (Safari) :</b> ouvrez les Favoris et touchez le favori.`,
+      android: `<b>Android (Chrome) :</b> saisissez le nom du favori dans la barre d'adresse et choisissez-le dans les suggestions. Firefox permet de le lancer depuis le menu des favoris.`,
+      desktop: `<b>Ordinateur :</b> cliquez sur le favori.`,
+      secTitle: `Sécurité : à lire`,
+      sec1: `Le script s'exécute <b>dans la page même de votre Headrush</b> avec les mêmes droits que l'éditeur officiel. N'utilisez qu'un favori créé sur une page de confiance, jamais un favori fourni par quelqu'un d'autre.`,
+      sec2: `Le favori verrouille le fichier exact grâce à son empreinte (SRI) : si le fichier publié change, le navigateur refuse de l'exécuter. Contrepartie : après une mise à jour, vous devez recréer le favori depuis cette page.`,
+      sec3: `L'appli peut seulement écrire l'état des scènes et des footswitches (sélection de scène, A/B, latch, hold). Elle n'enregistre, ne renomme ni ne supprime jamais de rigs. Rien n'est envoyé ailleurs : elle ne parle qu'à votre Headrush.`,
+      sec4: `Le Headrush n'a pas de mot de passe : toute personne sur votre réseau peut déjà le contrôler. Projet non officiel, non affilié à Headrush.`,
+      file: `Fichier :`,
+      limTitle: `Limites`,
+      lim1: `Il faut ouvrir le Headrush et lancer le favori à chaque fois. Impossible de l'installer comme une appli (la page du Headrush est en HTTP simple).`,
+      lim2: `Si une mise à jour du firmware durcit la politique de sécurité de l'appareil, le script risque de ne plus se charger.`,
+      fail: `Headrush Remote Buttons : impossible de charger ou de vérifier le script. Recréez le favori depuis `,
+    },
+    de: {
+      tagline: `Eine Touch-Fernbedienung für Headrush-Pedalboards (Szenen und Fußschalter), die im Browser läuft. Keine App, kein Server zu installieren.`,
+      tested: `Nur mit dem Headrush Core getestet. Sie funktioniert möglicherweise auch mit anderen Modellen mit demselben Web-Editor (Flex Prime, Pedalboard), das wurde aber nicht geprüft.`,
+      s1Title: `1. Lesezeichen erstellen`,
+      s1Text: `Ziehe diese Schaltfläche in deine Lesezeichenleiste (Computer) oder tippe auf <b>Kopieren</b>, lege ein neues Lesezeichen an und füge den kopierten Text als Adresse ein (Handy).`,
+      copy: `Kopieren`, copied: `Kopiert.`, copyFail: `Kopieren fehlgeschlagen: Halte die orange Schaltfläche gedrückt.`,
+      s2Title: `2. Headrush öffnen und Lesezeichen antippen`,
+      s2Text: `Gib die IP-Adresse deines Headrush ein und öffne sie im selben Browser (Handy und Headrush im selben Netzwerk), dann starte das Lesezeichen. Die Adresse wird auf diesem Gerät gespeichert.`,
+      open: `Öffnen`,
+      ipHelp: `<b>IP unbekannt?</b> Diese Seite kann sie nicht suchen (Browser erlauben einer sicheren Seite nicht, dein Netzwerk zu scannen). Schau in den WLAN-/Netzwerkeinstellungen des Pedalboards oder in der Geräteliste deines Routers nach (meist ein Gerät namens „Headrush“).`,
+      ios: `<b>iPhone / iPad (Safari):</b> Lesezeichen öffnen und das Lesezeichen antippen.`,
+      android: `<b>Android (Chrome):</b> Gib den Namen des Lesezeichens in die Adressleiste ein und wähle ihn aus den Vorschlägen. In Firefox startest du es über das Lesezeichenmenü.`,
+      desktop: `<b>Computer:</b> Lesezeichen anklicken.`,
+      secTitle: `Sicherheit: bitte lesen`,
+      sec1: `Das Skript läuft <b>in der eigenen Seite deines Headrush</b> mit denselben Rechten wie der offizielle Editor. Verwende nur ein Lesezeichen, das du auf einer vertrauenswürdigen Seite erstellt hast, nie eines von jemand anderem.`,
+      sec2: `Das Lesezeichen legt die exakte Datei über ihren Hash (SRI) fest: Ändert sich die veröffentlichte Datei, weigert sich der Browser, sie auszuführen. Der Preis: Nach einem Update musst du das Lesezeichen auf dieser Seite neu erstellen.`,
+      sec3: `Die App kann nur den Zustand von Szenen und Fußschaltern schreiben (Szenenwahl, A/B, Latch, Hold). Sie speichert, benennt oder löscht nie Rigs. Es wird nichts nach außen gesendet: Sie spricht nur mit deinem Headrush.`,
+      sec4: `Der Headrush hat kein Passwort: Jeder in deinem Netzwerk kann ihn bereits steuern. Inoffizielles Projekt, nicht mit Headrush verbunden.`,
+      file: `Datei:`,
+      limTitle: `Einschränkungen`,
+      lim1: `Du musst den Headrush jedes Mal öffnen und das Lesezeichen ausführen. Als App installieren geht nicht (die Headrush-Seite nutzt unverschlüsseltes HTTP).`,
+      lim2: `Verschärft ein Firmware-Update die Sicherheitsrichtlinie des Geräts, wird das Skript möglicherweise nicht mehr geladen.`,
+      fail: `Headrush Remote Buttons: Das Skript konnte nicht geladen oder überprüft werden. Erstelle das Lesezeichen neu auf `,
+    },
+    pt: {
+      tagline: `Um controle remoto por toque para pedaleiras Headrush (cenas e footswitches) que funciona no navegador. Sem app nem servidor para instalar.`,
+      tested: `Testado apenas no Headrush Core. Pode funcionar com outros modelos que tenham o mesmo editor web (Flex Prime, Pedalboard), mas isso não foi testado.`,
+      s1Title: `1. Crie o favorito`,
+      s1Text: `Arraste este botão para a barra de favoritos (computador) ou toque em <b>Copiar</b>, crie um novo favorito e cole o texto copiado como endereço (celular).`,
+      copy: `Copiar`, copied: `Copiado.`, copyFail: `Falha ao copiar: mantenha o botão laranja pressionado.`,
+      s2Title: `2. Abra o seu Headrush e toque no favorito`,
+      s2Text: `Digite o endereço IP do seu Headrush e abra-o no mesmo navegador (celular e Headrush na mesma rede); depois execute o favorito. O endereço fica guardado neste dispositivo.`,
+      open: `Abrir`,
+      ipHelp: `<b>Não sabe o IP?</b> Esta página não consegue procurá-lo (os navegadores não permitem que uma página segura examine a sua rede). Procure nas configurações de Wi-Fi/rede da pedaleira ou na lista de dispositivos conectados do roteador (geralmente um dispositivo chamado "Headrush").`,
+      ios: `<b>iPhone / iPad (Safari):</b> abra os Favoritos e toque no favorito.`,
+      android: `<b>Android (Chrome):</b> digite o nome do favorito na barra de endereços e escolha-o nas sugestões. No Firefox, execute-o pelo menu de favoritos.`,
+      desktop: `<b>Computador:</b> clique no favorito.`,
+      secTitle: `Segurança: leia isto`,
+      sec1: `O script é executado <b>dentro da própria página do seu Headrush</b> com os mesmos poderes do editor oficial. Use apenas um favorito criado numa página em que você confia, nunca um que outra pessoa lhe tenha dado.`,
+      sec2: `O favorito fixa o arquivo exato pelo seu hash (SRI): se o arquivo publicado mudar, o navegador se recusa a executá-lo. O custo: após uma atualização, é preciso criar o favorito de novo a partir desta página.`,
+      sec3: `O app só pode gravar o estado das cenas e dos footswitches (seleção de cena, A/B, latch, hold). Nunca salva, renomeia nem apaga rigs. Nada é enviado para outro lugar: ele só fala com o seu Headrush.`,
+      sec4: `O Headrush não tem senha: qualquer pessoa na sua rede já pode controlá-lo. Projeto não oficial, sem vínculo com a Headrush.`,
+      file: `Arquivo:`,
+      limTitle: `Limites`,
+      lim1: `É preciso abrir o Headrush e executar o favorito a cada uso. Não dá para instalar como app (a página do Headrush usa HTTP simples).`,
+      lim2: `Se uma atualização de firmware endurecer a política de segurança do dispositivo, o script pode deixar de carregar.`,
+      fail: `Headrush Remote Buttons: não foi possível carregar ou verificar o script. Crie o favorito de novo em `,
+    },
+    ja: {
+      tagline: `ブラウザで動く Headrush ペダルボード用のタッチリモコン（シーンとフットスイッチ）。アプリもサーバーもインストール不要です。`,
+      tested: `動作確認は Headrush Core のみです。同じウェブエディターを持つ他のモデル（Flex Prime、Pedalboard）でも動く可能性がありますが、未確認です。`,
+      s1Title: `1. ブックマークレットを作る`,
+      s1Text: `このボタンをブックマークバーにドラッグします（パソコン）。スマートフォンでは <b>コピー</b> を押し、新しいブックマークを作って、コピーした文字列をアドレスとして貼り付けます。`,
+      copy: `コピー`, copied: `コピーしました。`, copyFail: `コピーできませんでした。オレンジのボタンを長押ししてください。`,
+      s2Title: `2. Headrush を開いてブックマークをタップ`,
+      s2Text: `Headrush の IP アドレスを入力し、同じブラウザーで開きます（スマートフォンと Headrush は同じネットワークに接続）。その後ブックマークを実行します。アドレスはこの端末に保存されます。`,
+      open: `開く`,
+      ipHelp: `<b>IP アドレスが分からない場合：</b> このページでは検索できません（安全なページからネットワークをスキャンすることはブラウザーが許可していません）。ペダルボードの Wi-Fi／ネットワーク設定か、ルーターの接続機器一覧（通常は「Headrush」という名前の機器）で確認してください。`,
+      ios: `<b>iPhone / iPad（Safari）：</b> ブックマークを開いて、ブックマークをタップします。`,
+      android: `<b>Android（Chrome）：</b> アドレスバーにブックマークの名前を入力し、候補から選びます。Firefox ではブックマークメニューから実行できます。`,
+      desktop: `<b>パソコン：</b> ブックマークをクリックします。`,
+      secTitle: `セキュリティ：必ずお読みください`,
+      sec1: `スクリプトは <b>Headrush 自身のページの中</b> で、公式エディターと同じ権限で動作します。信頼できるページで自分で作成したブックマークレットだけを使い、他人から渡されたものは使わないでください。`,
+      sec2: `ブックマークレットはハッシュ（SRI）で正確なファイルを固定します。公開ファイルが変更されると、ブラウザーは実行を拒否します。その代わり、更新後はこのページでブックマークレットを作り直す必要があります。`,
+      sec3: `このアプリが書き込めるのはシーンとフットスイッチの状態（シーン選択、A/B、ラッチ、ホールド）だけです。リグの保存、名前変更、削除は一切行いません。外部には何も送信せず、通信相手はあなたの Headrush だけです。`,
+      sec4: `Headrush にはパスワードがありません。同じネットワーク内の誰でも、すでに操作できます。非公式プロジェクトで、Headrush とは関係ありません。`,
+      file: `ファイル：`,
+      limTitle: `制限事項`,
+      lim1: `使うたびに Headrush を開いてブックマークを実行する必要があります。アプリとしてインストールはできません（Headrush のページは暗号化されていない HTTP です）。`,
+      lim2: `ファームウェア更新でデバイスのセキュリティポリシーが厳しくなると、スクリプトが読み込まれなくなる可能性があります。`,
+      fail: `Headrush Remote Buttons：スクリプトを読み込めないか、検証に失敗しました。次のページでブックマークレットを作り直してください：`,
+    },
+    zh: {
+      tagline: `在浏览器中运行的 Headrush 效果器触控遥控器（场景和脚踏开关）。无需安装应用，也无需服务器。`,
+      tested: `仅在 Headrush Core 上测试过。其他使用相同网页编辑器的型号（Flex Prime、Pedalboard）可能也能使用，但尚未验证。`,
+      s1Title: `1. 创建书签小程序`,
+      s1Text: `将此按钮拖到书签栏（电脑），或点击<b>复制</b>，新建一个书签，并把复制的文本粘贴为网址（手机）。`,
+      copy: `复制`, copied: `已复制。`, copyFail: `复制失败：请长按橙色按钮。`,
+      s2Title: `2. 打开你的 Headrush 并点击书签`,
+      s2Text: `输入 Headrush 的 IP 地址，并在同一浏览器中打开（手机与 Headrush 需在同一网络），然后运行书签。该地址会保存在此设备上。`,
+      open: `打开`,
+      ipHelp: `<b>不知道 IP？</b> 本页面无法搜索（浏览器不允许安全页面扫描你的网络）。请在效果器的 Wi-Fi/网络设置中查看，或在路由器的已连接设备列表中查找（通常是名为“Headrush”的设备）。`,
+      ios: `<b>iPhone / iPad（Safari）：</b>打开书签，点击该书签。`,
+      android: `<b>Android（Chrome）：</b>在地址栏输入书签名称，并从建议中选择。Firefox 可从书签菜单中运行。`,
+      desktop: `<b>电脑：</b>点击该书签。`,
+      secTitle: `安全：请阅读`,
+      sec1: `该脚本在 <b>Headrush 自己的页面内</b>运行，权限与官方编辑器相同。只使用你在可信页面上创建的书签小程序，切勿使用他人提供的。`,
+      sec2: `书签小程序通过哈希（SRI）锁定确切的文件：如果托管的文件发生变化，浏览器会拒绝运行。代价是：更新后你需要在本页面重新创建书签小程序。`,
+      sec3: `本应用只能写入场景和脚踏开关的状态（选择场景、A/B、锁定、按住）。它不会保存、重命名或删除任何 rig。不会向任何地方发送数据：只与你的 Headrush 通信。`,
+      sec4: `Headrush 没有密码：同一网络中的任何人本来就可以控制它。非官方项目，与 Headrush 无关联。`,
+      file: `文件：`,
+      limTitle: `限制`,
+      lim1: `每次使用都需要先打开 Headrush 再运行书签。无法安装为应用（Headrush 的页面使用未加密的 HTTP）。`,
+      lim2: `如果固件更新收紧了设备的安全策略，脚本可能无法再加载。`,
+      fail: `Headrush Remote Buttons：无法加载或验证脚本。请在以下页面重新创建书签小程序：`,
+    },
+  };
+  const ENGLISH_FAIL = "Headrush Remote Buttons: could not load or verify the script. Create the bookmarklet again from ";
+  const ENGLISH_COPIED = ["Copied.", "Copy failed: long-press the orange button."];
 
-  const src = new URL(FILE, location.href).href;
-  const fail = it
-    ? "Headrush Remote Buttons: impossibile caricare o verificare lo script. Ricrea il segnalibro da " + location.href.split("#")[0]
-    : "Headrush Remote Buttons: could not load or verify the script. Create the bookmarklet again from " + location.href.split("#")[0];
-  const code = "javascript:(()=>{var s=document.createElement('script');s.src=" + JSON.stringify(src) +
-    ";s.integrity=" + JSON.stringify(INTEGRITY) + ";s.crossOrigin='anonymous';s.onerror=()=>alert(" + JSON.stringify(fail) +
-    ");document.head.appendChild(s)})();";
+  const $ = (id) => document.getElementById(id);
+  const langSelect = $("lang");
+  let t = (key) => key; // sostituita da apply()
+  let lang = "en";
 
-  const bm = document.getElementById("bm");
-  bm.href = code;
-  bm.addEventListener("click", (e) => e.preventDefault()); // si trascina, non si clicca da qui
-  document.getElementById("file").textContent = FILE;
-  document.getElementById("sha").textContent = INTEGRITY;
+  function detect() {
+    try { const saved = localStorage.getItem("lang"); if (saved && T[saved]) return saved; } catch {}
+    for (const l of [...(navigator.languages || []), navigator.language || ""]) {
+      const base = l.toLowerCase().split("-")[0];
+      if (T[base]) return base;
+    }
+    return "en";
+  }
 
-  const copied = document.getElementById("copied");
-  document.getElementById("copy").addEventListener("click", async () => {
+  const defaults = {}; // testo inglese originale dell'HTML, per i testi non tradotti
+  document.querySelectorAll("[data-i18n]").forEach((el) => { defaults[el.dataset.i18n] = el.innerHTML; });
+
+  function bookmarklet() {
+    const src = new URL(FILE, location.href).href;
+    const page = location.href.split("#")[0];
+    const fail = t("fail") + page;
+    return "javascript:(()=>{var s=document.createElement('script');s.src=" + JSON.stringify(src) +
+      ";s.integrity=" + JSON.stringify(INTEGRITY) + ";s.crossOrigin='anonymous';s.onerror=()=>alert(" + JSON.stringify(fail) +
+      ");document.head.appendChild(s)})();";
+  }
+
+  function apply(next) {
+    lang = next;
+    const dict = T[lang];
+    t = (key) => dict[key] ?? (key === "fail" ? ENGLISH_FAIL : key === "copied" ? ENGLISH_COPIED[0] : key === "copyFail" ? ENGLISH_COPIED[1] : defaults[key] ?? key);
+    document.documentElement.lang = lang;
+    langSelect.value = lang;
+    document.querySelectorAll("[data-i18n]").forEach((el) => { el.innerHTML = dict[el.dataset.i18n] ?? defaults[el.dataset.i18n]; });
+    $("bm").href = bookmarklet();
+    $("copied").textContent = "";
+    try { localStorage.setItem("lang", lang); } catch {}
+  }
+
+  $("file").textContent = FILE;
+  $("sha").textContent = INTEGRITY;
+  $("bm").addEventListener("click", (e) => e.preventDefault()); // si trascina, non si clicca da qui
+  langSelect.addEventListener("change", () => apply(langSelect.value));
+
+  $("copy").addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText(code);
-      copied.textContent = it ? "Copiato." : "Copied.";
+      await navigator.clipboard.writeText(bookmarklet());
+      $("copied").textContent = t("copied");
     } catch {
-      copied.textContent = it ? "Copia non riuscita: tieni premuto il pulsante arancione." : "Copy failed: long-press the orange button.";
+      $("copied").textContent = t("copyFail");
     }
   });
 
-  const host = document.getElementById("host");
-  const open = document.getElementById("open");
+  const host = $("host");
+  const open = $("open");
   try { host.value = localStorage.getItem("host") || ""; } catch {}
   const update = () => {
     const raw = host.value.trim().replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
@@ -135,6 +333,8 @@
   };
   host.addEventListener("input", update);
   update();
+
+  apply(detect());
 </script>
 </body>
 </html>

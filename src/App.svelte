@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { readSnapshot, pressScene, toggleLatch, setHeld, type Pedal, type Snapshot } from './headrush';
-  import { t } from './i18n';
+  import { t, MODE_TAG } from './i18n';
 
   type View = 'A' | 'B' | 'ALL';
   const VIEWS: { id: View; label: string }[] = [
@@ -93,8 +93,6 @@
       window.removeEventListener('pagehide', releaseAll);
     };
   });
-
-  const MODE_TAG: Record<string, string> = { latch: t.latch, hold: t.hold, scene: t.scene };
 </script>
 
 <header>
