@@ -1,0 +1,31 @@
+{
+  "name": "headrush-remote-buttons",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"tsx watch server/index.ts\" \"vite\"",
+    "build": "vite build",
+    "start": "tsx server/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "hono": "^4.13.13",
+    "tsx": "^4.23.15"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^26.6.5",
+    "concurrently": "^10.0.6",
+    "svelte": "^5.57.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vite-plugin-pwa": "^2.0.0"
+  },
+  "description": "Touch remote for the Headrush Core: scenes and footswitches from a phone or tablet",
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "author": "Thomas Borgogno"
+}

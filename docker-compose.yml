@@ -1,0 +1,15 @@
+services:
+  headrush-remote-buttons:
+    build: .
+    # host networking: serve per cercare il Core in rete (scansione della LAN / mDNS).
+    # Solo Linux (Raspberry Pi, NAS). Su Docker Desktop (Windows/Mac) togli questa riga
+    # e decommenta "ports": l'indirizzo del Core va poi inserito a mano.
+    network_mode: host
+    # ports:
+    #   - "8787:8787"
+    volumes:
+      - headrush-data:/data
+    restart: unless-stopped
+
+volumes:
+  headrush-data:
