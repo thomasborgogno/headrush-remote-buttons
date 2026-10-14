@@ -2,7 +2,7 @@ name: Deploy bookmarklet page
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
     # Solo quando cambia qualcosa che finisce nel sito: la pagina (pages/) e tutto ciò da cui si costruisce
     # remote.js (src/, build). Altrimenti una modifica a src/ non verrebbe mai pubblicata.
     paths:

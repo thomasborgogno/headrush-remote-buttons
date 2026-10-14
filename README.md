@@ -5,6 +5,7 @@ Scenes (with A/B states), latch (toggle) and hold (momentary) footswitches, both
 Nothing to install: it runs in your browser, started with a bookmark.
 
 ![status](https://img.shields.io/badge/status-experimental-orange)
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal&logoColor=white)](https://paypal.me/thomasborgogno)
 
 > **Tested only on the Headrush Core.** It may also work with other models that have the same web
 > editor (Flex Prime, Pedalboard), but that has not been tried. Reports welcome.
@@ -71,6 +72,12 @@ npm run build:pages   # builds pages-dist/ (remote.js + instructions page)
 (Settings → Pages → Source: GitHub Actions).
 
 Stack: TypeScript, Svelte 5, Vite (single-file IIFE bundle).
+
+## Support
+
+If this project is useful to you, you can support it with a donation:
+
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal&logoColor=white)](https://paypal.me/thomasborgogno)
 
 ## License
 

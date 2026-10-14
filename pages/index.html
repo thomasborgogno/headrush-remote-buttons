@@ -26,6 +26,7 @@
     .warn { border-color: #6b4a1f; }
     .ok { color: #2ecc71; min-height: 1.5em; }
     .gap { margin-top: 12px; }
+    a.btn.donate { background: #ffc439; border-color: #ffc439; color: #000; }
     code { font-family: ui-monospace, monospace; font-size: .85rem; }
   </style>
 </head>
@@ -67,7 +68,7 @@
     <p data-i18n="s2Text">Type your Headrush's IP address, open it in the same browser (phone and Headrush on the same network), then run the bookmark. The address is remembered on this device.</p>
     <div class="row">
       <input id="host" placeholder="192.168.1.50" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" />
-      <a id="open" class="btn" href="#" data-i18n="open">Open</a>
+      <a id="open" class="btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="open">Open</a>
     </div>
     <p class="muted gap" data-i18n="ipHelp"><b>Don't know the IP?</b> This page can't search for it (browsers don't allow a secure page to scan your network). Look in the pedalboard's Wi-Fi/network settings, or in your router's list of connected devices (usually a device named "Headrush").</p>
     <ul class="muted gap">
@@ -93,6 +94,14 @@
       <li data-i18n="lim1">You have to open the Headrush and run the bookmark each time. It can't be installed as an app (the Headrush page is plain HTTP).</li>
       <li data-i18n="lim2">If a firmware update tightens the device's security policy, the script may stop loading.</li>
     </ul>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="donateTitle">Support the project</h2>
+    <p data-i18n="donateText">If this project is useful to you, you can support it with a donation. Thank you!</p>
+    <div class="row">
+      <a class="btn donate" href="https://paypal.me/thomasborgogno" target="_blank" rel="noopener noreferrer" data-i18n="donateBtn">Donate with PayPal</a>
+    </div>
   </section>
 </main>
 
@@ -125,6 +134,9 @@
       limTitle: `Limiti`,
       lim1: `Devi aprire l'Headrush ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina dell'Headrush è in HTTP semplice).`,
       lim2: `Se un aggiornamento del firmware restringe la politica di sicurezza del dispositivo, lo script potrebbe non caricarsi più.`,
+      donateTitle: `Sostieni il progetto`,
+      donateText: `Se il progetto ti è utile, puoi sostenerlo con una donazione. Grazie!`,
+      donateBtn: `Dona con PayPal`,
       fail: `Headrush Remote Buttons: impossibile caricare lo script. Aprire la pagina con le istruzioni?`,
     },
     es: {
@@ -150,6 +162,9 @@
       limTitle: `Límites`,
       lim1: `Tienes que abrir el Headrush y ejecutar el marcador cada vez. No se puede instalar como aplicación (la página del Headrush usa HTTP sin cifrar).`,
       lim2: `Si una actualización del firmware endurece la política de seguridad del dispositivo, el script podría dejar de cargarse.`,
+      donateTitle: `Apoya el proyecto`,
+      donateText: `Si este proyecto te resulta útil, puedes apoyarlo con una donación. ¡Gracias!`,
+      donateBtn: `Donar con PayPal`,
       fail: `Headrush Remote Buttons: no se pudo cargar el script. ¿Abrir la página con las instrucciones?`,
     },
     fr: {
@@ -175,6 +190,9 @@
       limTitle: `Limites`,
       lim1: `Il faut ouvrir le Headrush et lancer le favori à chaque fois. Impossible de l'installer comme une appli (la page du Headrush est en HTTP simple).`,
       lim2: `Si une mise à jour du firmware durcit la politique de sécurité de l'appareil, le script risque de ne plus se charger.`,
+      donateTitle: `Soutenir le projet`,
+      donateText: `Si ce projet vous est utile, vous pouvez le soutenir par un don. Merci !`,
+      donateBtn: `Faire un don via PayPal`,
       fail: `Headrush Remote Buttons : impossible de charger le script. Ouvrir la page d'instructions ?`,
     },
     de: {
@@ -200,6 +218,9 @@
       limTitle: `Einschränkungen`,
       lim1: `Du musst den Headrush jedes Mal öffnen und das Lesezeichen ausführen. Als App installieren geht nicht (die Headrush-Seite nutzt unverschlüsseltes HTTP).`,
       lim2: `Verschärft ein Firmware-Update die Sicherheitsrichtlinie des Geräts, wird das Skript möglicherweise nicht mehr geladen.`,
+      donateTitle: `Projekt unterstützen`,
+      donateText: `Wenn dir dieses Projekt nützt, kannst du es mit einer Spende unterstützen. Danke!`,
+      donateBtn: `Mit PayPal spenden`,
       fail: `Headrush Remote Buttons: Das Skript konnte nicht geladen werden. Seite mit der Anleitung öffnen?`,
     },
     pt: {
@@ -225,6 +246,9 @@
       limTitle: `Limites`,
       lim1: `É preciso abrir o Headrush e executar o favorito a cada uso. Não dá para instalar como app (a página do Headrush usa HTTP simples).`,
       lim2: `Se uma atualização de firmware endurecer a política de segurança do dispositivo, o script pode deixar de carregar.`,
+      donateTitle: `Apoie o projeto`,
+      donateText: `Se este projeto é útil para você, pode apoiá-lo com uma doação. Obrigado!`,
+      donateBtn: `Doar com PayPal`,
       fail: `Headrush Remote Buttons: não foi possível carregar o script. Abrir a página com as instruções?`,
     },
     ja: {
@@ -250,6 +274,9 @@
       limTitle: `制限事項`,
       lim1: `使うたびに Headrush を開いてブックマークを実行する必要があります。アプリとしてインストールはできません（Headrush のページは暗号化されていない HTTP です）。`,
       lim2: `ファームウェア更新でデバイスのセキュリティポリシーが厳しくなると、スクリプトが読み込まれなくなる可能性があります。`,
+      donateTitle: `プロジェクトを支援`,
+      donateText: `このプロジェクトがお役に立てば、寄付で応援していただけると嬉しいです。ありがとうございます！`,
+      donateBtn: `PayPal で寄付する`,
       fail: `Headrush Remote Buttons：スクリプトを読み込めませんでした。手順のページを開きますか？`,
     },
     zh: {
@@ -275,6 +302,9 @@
       limTitle: `限制`,
       lim1: `每次使用都需要先打开 Headrush 再运行书签。无法安装为应用（Headrush 的页面使用未加密的 HTTP）。`,
       lim2: `如果固件更新收紧了设备的安全策略，脚本可能无法再加载。`,
+      donateTitle: `支持本项目`,
+      donateText: `如果这个项目对你有帮助，欢迎通过捐赠支持。谢谢！`,
+      donateBtn: `通过 PayPal 捐赠`,
       fail: `Headrush Remote Buttons：无法加载脚本。要打开说明页面吗？`,
     },
   };
@@ -351,6 +381,8 @@
     try { localStorage.setItem("host", raw); } catch {}
   };
   host.addEventListener("input", update);
+  // senza indirizzo non c'è nulla da aprire: evita una nuova scheda con questa stessa pagina
+  open.addEventListener("click", (e) => { if (open.getAttribute("href") === "#") { e.preventDefault(); host.focus(); } });
   update();
 
   apply(detect());
