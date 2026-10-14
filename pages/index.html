@@ -26,6 +26,11 @@
     .warn { border-color: #6b4a1f; }
     .ok { color: #2ecc71; min-height: 1.5em; }
     .gap { margin-top: 12px; }
+    details.card > summary { cursor: pointer; font-size: 1.15rem; font-weight: 700; list-style: none; display: flex; align-items: center; gap: 10px; }
+    details.card > summary::-webkit-details-marker { display: none; }
+    details.card > summary::before { content: "▸"; display: inline-block; transition: transform .15s; opacity: .7; }
+    details.card[open] > summary::before { transform: rotate(90deg); }
+    details.card[open] > summary { margin-bottom: 8px; }
     a.btn.donate { background: #ffc439; border-color: #ffc439; color: #000; }
     code { font-family: ui-monospace, monospace; font-size: .85rem; }
   </style>
@@ -47,6 +52,11 @@
   </div>
   <p class="muted" data-i18n="tagline">A touch remote for Headrush pedalboards (scenes and footswitches) that runs in your browser. No app, no server to install.</p>
   <p class="muted" data-i18n="tested">Tested only on the Headrush Core. It may work with other models that have the same web editor (Flex Prime, Pedalboard), but that is untested.</p>
+
+  <section class="card warn">
+    <h2 data-i18n="prereqTitle">Before you start</h2>
+    <p data-i18n="prereqText">On your Headrush, open <b>Global Settings</b> and set <b>Headrush Remote</b> to <b>On</b>. Make sure Wi-Fi is on and that your phone and the Headrush are on the same network.</p>
+  </section>
 
   <section class="card">
     <h2 data-i18n="s1Title">1. Create the bookmarklet</h2>
@@ -78,23 +88,22 @@
     </ul>
   </section>
 
-  <section class="card warn">
-    <h2 data-i18n="secTitle">Security: read this</h2>
+  <details class="card warn">
+    <summary data-i18n="secTitle">Security</summary>
     <ul>
       <li data-i18n="sec1">The script runs <b>inside your Headrush's own page</b> with the same powers as the official editor. Only use a bookmarklet created on a page you trust, never one given to you by someone else.</li>
-      <li data-i18n="sec2">The script is loaded from this site every time you run the bookmark, so updates arrive automatically. It also means that whoever controls this site controls what runs on your Headrush: only use the official page, or your own copy.</li>
       <li data-i18n="sec3">The app can only write scene and footswitch state (scene selection, A/B, latch, hold). It never saves, renames or deletes rigs. Nothing is sent anywhere: it only talks to your Headrush.</li>
       <li data-i18n="sec4">The Headrush has no password: anyone on your network can already control it. Unofficial project, not affiliated with Headrush.</li>
     </ul>
-  </section>
+  </details>
 
-  <section class="card">
-    <h2 data-i18n="limTitle">Limits</h2>
+  <details class="card">
+    <summary data-i18n="limTitle">Limits</summary>
     <ul>
       <li data-i18n="lim1">You have to open the Headrush and run the bookmark each time. It can't be installed as an app (the Headrush page is plain HTTP).</li>
       <li data-i18n="lim2">If a firmware update tightens the device's security policy, the script may stop loading.</li>
     </ul>
-  </section>
+  </details>
 
   <section class="card">
     <h2 data-i18n="donateTitle">Support the project</h2>
@@ -126,14 +135,15 @@
       altText: `<b>Android, se il segnalibro non fa nulla:</b> Chrome può ignorare i segnalibri che iniziano con «javascript:» e toglie quel prefisso quando incolli. Apri la pagina del tuo Headrush, tocca la barra degli indirizzi, <b>scrivi</b> <code>javascript:</code>, incolla subito dopo lo script (pulsante qui sotto) e premi Vai.`,
       copyBody: `Copia solo lo script`,
       desktop: `<b>Computer:</b> clicca il segnalibro.`,
-      secTitle: `Sicurezza: leggi qui`,
+      secTitle: `Sicurezza`,
       sec1: `Lo script gira <b>dentro la pagina del tuo Headrush</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.`,
-      sec2: `Lo script viene caricato da questo sito ogni volta che esegui il segnalibro, quindi gli aggiornamenti arrivano da soli. Significa anche che chi controlla questo sito controlla cosa gira sul tuo Headrush: usa solo la pagina ufficiale o una tua copia.`,
       sec3: `L'app può scrivere solo lo stato di scene e footswitch (selezione scena, A/B, latch, hold). Non salva, rinomina né elimina mai i rig. Non invia nulla altrove: parla solo con il tuo Headrush.`,
       sec4: `L'Headrush non ha password: chiunque sulla tua rete può già controllarlo. Progetto non ufficiale, non affiliato a Headrush.`,
       limTitle: `Limiti`,
       lim1: `Devi aprire l'Headrush ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina dell'Headrush è in HTTP semplice).`,
       lim2: `Se un aggiornamento del firmware restringe la politica di sicurezza del dispositivo, lo script potrebbe non caricarsi più.`,
+      prereqTitle: `Prima di iniziare`,
+      prereqText: `Sul tuo Headrush apri <b>Global Settings</b> e imposta <b>Headrush Remote</b> su <b>On</b>. Controlla che il Wi-Fi sia attivo e che telefono e Headrush siano sulla stessa rete.`,
       donateTitle: `Sostieni il progetto`,
       donateText: `Se il progetto ti è utile, puoi sostenerlo con una donazione. Grazie!`,
       donateBtn: `Dona con PayPal`,
@@ -154,14 +164,15 @@
       altText: `<b>Android, si el marcador no hace nada:</b> Chrome puede ignorar los marcadores que empiezan por «javascript:» y quita ese prefijo al pegar. Abre la página de tu Headrush, toca la barra de direcciones, <b>escribe</b> <code>javascript:</code>, pega justo después el script (botón de abajo) y pulsa Ir.`,
       copyBody: `Copiar solo el script`,
       desktop: `<b>Ordenador:</b> haz clic en el marcador.`,
-      secTitle: `Seguridad: léelo`,
+      secTitle: `Seguridad`,
       sec1: `El script se ejecuta <b>dentro de la propia página de tu Headrush</b> con los mismos permisos que el editor oficial. Usa solo un marcador creado en una página de confianza, nunca uno que te haya dado otra persona.`,
-      sec2: `El script se carga desde este sitio cada vez que ejecutas el marcador, así que las actualizaciones llegan solas. También significa que quien controle este sitio controla lo que se ejecuta en tu Headrush: usa solo la página oficial o tu propia copia.`,
       sec3: `La app solo puede escribir el estado de escenas y footswitches (selección de escena, A/B, latch, hold). Nunca guarda, renombra ni elimina rigs. No envía nada a ningún sitio: solo habla con tu Headrush.`,
       sec4: `El Headrush no tiene contraseña: cualquiera en tu red ya puede controlarlo. Proyecto no oficial, sin relación con Headrush.`,
       limTitle: `Límites`,
       lim1: `Tienes que abrir el Headrush y ejecutar el marcador cada vez. No se puede instalar como aplicación (la página del Headrush usa HTTP sin cifrar).`,
       lim2: `Si una actualización del firmware endurece la política de seguridad del dispositivo, el script podría dejar de cargarse.`,
+      prereqTitle: `Antes de empezar`,
+      prereqText: `En tu Headrush abre <b>Global Settings</b> y pon <b>Headrush Remote</b> en <b>On</b>. Comprueba que el Wi-Fi esté activado y que el móvil y el Headrush estén en la misma red.`,
       donateTitle: `Apoya el proyecto`,
       donateText: `Si este proyecto te resulta útil, puedes apoyarlo con una donación. ¡Gracias!`,
       donateBtn: `Donar con PayPal`,
@@ -182,14 +193,15 @@
       altText: `<b>Android, si le favori ne fait rien :</b> Chrome peut ignorer les favoris commençant par « javascript: » et supprime ce préfixe au collage. Ouvrez la page de votre Headrush, touchez la barre d'adresse, <b>saisissez</b> <code>javascript:</code>, collez le script juste après (bouton ci-dessous) et appuyez sur OK.`,
       copyBody: `Copier le script seul`,
       desktop: `<b>Ordinateur :</b> cliquez sur le favori.`,
-      secTitle: `Sécurité : à lire`,
+      secTitle: `Sécurité`,
       sec1: `Le script s'exécute <b>dans la page même de votre Headrush</b> avec les mêmes droits que l'éditeur officiel. N'utilisez qu'un favori créé sur une page de confiance, jamais un favori fourni par quelqu'un d'autre.`,
-      sec2: `Le script est chargé depuis ce site à chaque exécution du favori, les mises à jour arrivent donc toutes seules. Cela signifie aussi que celui qui contrôle ce site contrôle ce qui s'exécute sur votre Headrush : n'utilisez que la page officielle ou votre propre copie.`,
       sec3: `L'appli peut seulement écrire l'état des scènes et des footswitches (sélection de scène, A/B, latch, hold). Elle n'enregistre, ne renomme ni ne supprime jamais de rigs. Rien n'est envoyé ailleurs : elle ne parle qu'à votre Headrush.`,
       sec4: `Le Headrush n'a pas de mot de passe : toute personne sur votre réseau peut déjà le contrôler. Projet non officiel, non affilié à Headrush.`,
       limTitle: `Limites`,
       lim1: `Il faut ouvrir le Headrush et lancer le favori à chaque fois. Impossible de l'installer comme une appli (la page du Headrush est en HTTP simple).`,
       lim2: `Si une mise à jour du firmware durcit la politique de sécurité de l'appareil, le script risque de ne plus se charger.`,
+      prereqTitle: `Avant de commencer`,
+      prereqText: `Sur votre Headrush, ouvrez <b>Global Settings</b> et réglez <b>Headrush Remote</b> sur <b>On</b>. Vérifiez que le Wi-Fi est activé et que le téléphone et le Headrush sont sur le même réseau.`,
       donateTitle: `Soutenir le projet`,
       donateText: `Si ce projet vous est utile, vous pouvez le soutenir par un don. Merci !`,
       donateBtn: `Faire un don via PayPal`,
@@ -210,14 +222,15 @@
       altText: `<b>Android, wenn das Lesezeichen nichts tut:</b> Chrome ignoriert Lesezeichen, die mit „javascript:“ beginnen, unter Umständen und entfernt dieses Präfix beim Einfügen. Öffne die Seite deines Headrush, tippe auf die Adressleiste, <b>tippe</b> <code>javascript:</code> ein, füge direkt danach das Skript ein (Schaltfläche unten) und drücke Los.`,
       copyBody: `Nur Skript kopieren`,
       desktop: `<b>Computer:</b> Lesezeichen anklicken.`,
-      secTitle: `Sicherheit: bitte lesen`,
+      secTitle: `Sicherheit`,
       sec1: `Das Skript läuft <b>in der eigenen Seite deines Headrush</b> mit denselben Rechten wie der offizielle Editor. Verwende nur ein Lesezeichen, das du auf einer vertrauenswürdigen Seite erstellt hast, nie eines von jemand anderem.`,
-      sec2: `Das Skript wird bei jeder Ausführung des Lesezeichens von dieser Seite geladen, Updates kommen also automatisch an. Das heißt aber auch: Wer diese Seite kontrolliert, kontrolliert, was auf deinem Headrush läuft. Nutze nur die offizielle Seite oder deine eigene Kopie.`,
       sec3: `Die App kann nur den Zustand von Szenen und Fußschaltern schreiben (Szenenwahl, A/B, Latch, Hold). Sie speichert, benennt oder löscht nie Rigs. Es wird nichts nach außen gesendet: Sie spricht nur mit deinem Headrush.`,
       sec4: `Der Headrush hat kein Passwort: Jeder in deinem Netzwerk kann ihn bereits steuern. Inoffizielles Projekt, nicht mit Headrush verbunden.`,
       limTitle: `Einschränkungen`,
       lim1: `Du musst den Headrush jedes Mal öffnen und das Lesezeichen ausführen. Als App installieren geht nicht (die Headrush-Seite nutzt unverschlüsseltes HTTP).`,
       lim2: `Verschärft ein Firmware-Update die Sicherheitsrichtlinie des Geräts, wird das Skript möglicherweise nicht mehr geladen.`,
+      prereqTitle: `Bevor du beginnst`,
+      prereqText: `Öffne auf deinem Headrush <b>Global Settings</b> und stelle <b>Headrush Remote</b> auf <b>On</b>. Prüfe, dass WLAN aktiv ist und Handy und Headrush im selben Netzwerk sind.`,
       donateTitle: `Projekt unterstützen`,
       donateText: `Wenn dir dieses Projekt nützt, kannst du es mit einer Spende unterstützen. Danke!`,
       donateBtn: `Mit PayPal spenden`,
@@ -238,14 +251,15 @@
       altText: `<b>Android, se o favorito não fizer nada:</b> o Chrome pode ignorar favoritos que começam com “javascript:” e remove esse prefixo ao colar. Abra a página do seu Headrush, toque na barra de endereços, <b>digite</b> <code>javascript:</code>, cole o script logo depois (botão abaixo) e toque em Ir.`,
       copyBody: `Copiar só o script`,
       desktop: `<b>Computador:</b> clique no favorito.`,
-      secTitle: `Segurança: leia isto`,
+      secTitle: `Segurança`,
       sec1: `O script é executado <b>dentro da própria página do seu Headrush</b> com os mesmos poderes do editor oficial. Use apenas um favorito criado numa página em que você confia, nunca um que outra pessoa lhe tenha dado.`,
-      sec2: `O script é carregado deste site sempre que você executa o favorito, então as atualizações chegam sozinhas. Isso também significa que quem controla este site controla o que roda no seu Headrush: use apenas a página oficial ou a sua própria cópia.`,
       sec3: `O app só pode gravar o estado das cenas e dos footswitches (seleção de cena, A/B, latch, hold). Nunca salva, renomeia nem apaga rigs. Nada é enviado para outro lugar: ele só fala com o seu Headrush.`,
       sec4: `O Headrush não tem senha: qualquer pessoa na sua rede já pode controlá-lo. Projeto não oficial, sem vínculo com a Headrush.`,
       limTitle: `Limites`,
       lim1: `É preciso abrir o Headrush e executar o favorito a cada uso. Não dá para instalar como app (a página do Headrush usa HTTP simples).`,
       lim2: `Se uma atualização de firmware endurecer a política de segurança do dispositivo, o script pode deixar de carregar.`,
+      prereqTitle: `Antes de começar`,
+      prereqText: `No seu Headrush, abra <b>Global Settings</b> e defina <b>Headrush Remote</b> como <b>On</b>. Verifique se o Wi-Fi está ligado e se o celular e o Headrush estão na mesma rede.`,
       donateTitle: `Apoie o projeto`,
       donateText: `Se este projeto é útil para você, pode apoiá-lo com uma doação. Obrigado!`,
       donateBtn: `Doar com PayPal`,
@@ -266,14 +280,15 @@
       altText: `<b>Android でブックマークが動かない場合：</b> Chrome は「javascript:」で始まるブックマークを無視することがあり、貼り付け時にもその接頭辞を取り除きます。Headrush のページを開き、アドレスバーをタップして <code>javascript:</code> と<b>入力</b>し、その直後にスクリプトを貼り付けて（下のボタン）、移動を押してください。`,
       copyBody: `スクリプトのみコピー`,
       desktop: `<b>パソコン：</b> ブックマークをクリックします。`,
-      secTitle: `セキュリティ：必ずお読みください`,
+      secTitle: `セキュリティ`,
       sec1: `スクリプトは <b>Headrush 自身のページの中</b> で、公式エディターと同じ権限で動作します。信頼できるページで自分で作成したブックマークレットだけを使い、他人から渡されたものは使わないでください。`,
-      sec2: `ブックマークを実行するたびに、このサイトからスクリプトを読み込みます。そのため更新は自動的に反映されます。同時に、このサイトを管理する人が Headrush 上で動くコードを決められることになります。公式ページか、自分でコピーしたものだけを使ってください。`,
       sec3: `このアプリが書き込めるのはシーンとフットスイッチの状態（シーン選択、A/B、ラッチ、ホールド）だけです。リグの保存、名前変更、削除は一切行いません。外部には何も送信せず、通信相手はあなたの Headrush だけです。`,
       sec4: `Headrush にはパスワードがありません。同じネットワーク内の誰でも、すでに操作できます。非公式プロジェクトで、Headrush とは関係ありません。`,
       limTitle: `制限事項`,
       lim1: `使うたびに Headrush を開いてブックマークを実行する必要があります。アプリとしてインストールはできません（Headrush のページは暗号化されていない HTTP です）。`,
       lim2: `ファームウェア更新でデバイスのセキュリティポリシーが厳しくなると、スクリプトが読み込まれなくなる可能性があります。`,
+      prereqTitle: `始める前に`,
+      prereqText: `Headrush で <b>Global Settings</b> を開き、<b>Headrush Remote</b> を <b>On</b> にします。Wi-Fi がオンで、スマートフォンと Headrush が同じネットワークにあることを確認してください。`,
       donateTitle: `プロジェクトを支援`,
       donateText: `このプロジェクトがお役に立てば、寄付で応援していただけると嬉しいです。ありがとうございます！`,
       donateBtn: `PayPal で寄付する`,
@@ -294,14 +309,15 @@
       altText: `<b>Android 上书签没有反应时：</b>Chrome 可能会忽略以“javascript:”开头的书签，粘贴时也会去掉这个前缀。打开你的 Headrush 页面，点按地址栏，<b>输入</b> <code>javascript:</code>，紧接着粘贴脚本（下方按钮），然后点“前往”。`,
       copyBody: `仅复制脚本`,
       desktop: `<b>电脑：</b>点击该书签。`,
-      secTitle: `安全：请阅读`,
+      secTitle: `安全`,
       sec1: `该脚本在 <b>Headrush 自己的页面内</b>运行，权限与官方编辑器相同。只使用你在可信页面上创建的书签小程序，切勿使用他人提供的。`,
-      sec2: `每次运行书签时，脚本都会从本站加载，因此更新会自动生效。这也意味着，控制本站的人就能决定在你的 Headrush 上运行什么：请只使用官方页面或你自己的副本。`,
       sec3: `本应用只能写入场景和脚踏开关的状态（选择场景、A/B、锁定、按住）。它不会保存、重命名或删除任何 rig。不会向任何地方发送数据：只与你的 Headrush 通信。`,
       sec4: `Headrush 没有密码：同一网络中的任何人本来就可以控制它。非官方项目，与 Headrush 无关联。`,
       limTitle: `限制`,
       lim1: `每次使用都需要先打开 Headrush 再运行书签。无法安装为应用（Headrush 的页面使用未加密的 HTTP）。`,
       lim2: `如果固件更新收紧了设备的安全策略，脚本可能无法再加载。`,
+      prereqTitle: `开始之前`,
+      prereqText: `在你的 Headrush 上打开 <b>Global Settings</b>，将 <b>Headrush Remote</b> 设为 <b>On</b>。请确认 Wi-Fi 已开启，且手机与 Headrush 在同一网络。`,
       donateTitle: `支持本项目`,
       donateText: `如果这个项目对你有帮助，欢迎通过捐赠支持。谢谢！`,
       donateBtn: `通过 PayPal 捐赠`,

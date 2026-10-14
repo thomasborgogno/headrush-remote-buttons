@@ -13,6 +13,11 @@ Nothing to install: it runs in your browser, started with a bookmark.
 > Unofficial project, not affiliated with Headrush / inalCo. It uses the same local HTTP API as the
 > device's own web editor. That API is undocumented and may change with firmware updates.
 
+## Before you start
+
+On your Headrush, open **Global Settings** and set **Headrush Remote** to **On**. Make sure Wi-Fi is on
+and that your phone and the Headrush are on the same network.
+
 ## How it works
 
 The device's API sends no CORS headers and only speaks plain HTTP, so a normal web page (e.g. on GitHub
@@ -41,9 +46,6 @@ and Drum Machine are driven like a normal latch/hold press.
 
 The script runs inside the device's page with the same powers as the official editor.
 
-* The script is loaded from the GitHub Pages site every time you run the bookmark, so updates arrive
-  automatically. It also means that whoever controls that site controls what runs on your Headrush:
-  use the official page, or deploy your own copy (fork the repository and enable Pages).
 * The app can only write scene and footswitch state (`SceneActive`, `SceneState`, `FootSwitchOn`,
   `FootswitchHeld`, footswitches 1-10); anything else is rejected before the request is made
   (`assertWritable` in `src/headrush.ts`). It never saves, renames or deletes rigs.
