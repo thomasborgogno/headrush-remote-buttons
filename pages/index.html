@@ -23,7 +23,6 @@
     a.btn, button { font: inherit; font-weight: 600; padding: 10px 16px; border-radius: 10px; border: 2px solid #34343e;
       background: #20202a; color: inherit; cursor: pointer; text-decoration: none; display: inline-block; }
     a.btn.primary { background: var(--accent); border-color: var(--accent); color: #000; cursor: grab; }
-    code, .hash { font-family: ui-monospace, monospace; font-size: .8rem; word-break: break-all; }
     .warn { border-color: #6b4a1f; }
     .ok { color: #2ecc71; min-height: 1.5em; }
     .gap { margin-top: 12px; }
@@ -76,11 +75,10 @@
     <h2 data-i18n="secTitle">Security: read this</h2>
     <ul>
       <li data-i18n="sec1">The script runs <b>inside your Headrush's own page</b> with the same powers as the official editor. Only use a bookmarklet created on a page you trust, never one given to you by someone else.</li>
-      <li data-i18n="sec2">The bookmarklet pins the exact file by its hash (SRI): if the hosted file ever changes, the browser refuses to run it. The cost: after an update you must create the bookmarklet again from this page.</li>
+      <li data-i18n="sec2">The script is loaded from this site every time you run the bookmark, so updates arrive automatically. It also means that whoever controls this site controls what runs on your Headrush: only use the official page, or your own copy.</li>
       <li data-i18n="sec3">The app can only write scene and footswitch state (scene selection, A/B, latch, hold). It never saves, renames or deletes rigs. Nothing is sent anywhere: it only talks to your Headrush.</li>
       <li data-i18n="sec4">The Headrush has no password: anyone on your network can already control it. Unofficial project, not affiliated with Headrush.</li>
     </ul>
-    <p class="muted gap"><span data-i18n="file">File:</span> <code id="file"></code><br />SHA-384: <span class="hash" id="sha"></span></p>
   </section>
 
   <section class="card">
@@ -93,8 +91,7 @@
 </main>
 
 <script>
-  const FILE = "__FILE__";
-  const INTEGRITY = "__INTEGRITY__";
+  const FILE = "remote.js";
 
   // Traduzioni. L'inglese è anche il testo già presente nell'HTML (resta leggibile senza JavaScript).
   const T = {
@@ -114,14 +111,13 @@
       desktop: `<b>Computer:</b> clicca il segnalibro.`,
       secTitle: `Sicurezza: leggi qui`,
       sec1: `Lo script gira <b>dentro la pagina del tuo Headrush</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.`,
-      sec2: `Il segnalibro fissa il file esatto con la sua impronta (SRI): se il file pubblicato cambia, il browser rifiuta di eseguirlo. Il prezzo: dopo un aggiornamento devi ricreare il segnalibro da questa pagina.`,
+      sec2: `Lo script viene caricato da questo sito ogni volta che esegui il segnalibro, quindi gli aggiornamenti arrivano da soli. Significa anche che chi controlla questo sito controlla cosa gira sul tuo Headrush: usa solo la pagina ufficiale o una tua copia.`,
       sec3: `L'app può scrivere solo lo stato di scene e footswitch (selezione scena, A/B, latch, hold). Non salva, rinomina né elimina mai i rig. Non invia nulla altrove: parla solo con il tuo Headrush.`,
       sec4: `L'Headrush non ha password: chiunque sulla tua rete può già controllarlo. Progetto non ufficiale, non affiliato a Headrush.`,
-      file: `File:`,
       limTitle: `Limiti`,
       lim1: `Devi aprire l'Headrush ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina dell'Headrush è in HTTP semplice).`,
       lim2: `Se un aggiornamento del firmware restringe la politica di sicurezza del dispositivo, lo script potrebbe non caricarsi più.`,
-      fail: `Headrush Remote Buttons: impossibile caricare o verificare lo script. Aprire la pagina per ricreare il segnalibro?`,
+      fail: `Headrush Remote Buttons: impossibile caricare lo script. Aprire la pagina con le istruzioni?`,
     },
     es: {
       tagline: `Un mando táctil para pedaleras Headrush (escenas y footswitches) que funciona en tu navegador. Sin aplicación ni servidor que instalar.`,
@@ -138,14 +134,13 @@
       desktop: `<b>Ordenador:</b> haz clic en el marcador.`,
       secTitle: `Seguridad: léelo`,
       sec1: `El script se ejecuta <b>dentro de la propia página de tu Headrush</b> con los mismos permisos que el editor oficial. Usa solo un marcador creado en una página de confianza, nunca uno que te haya dado otra persona.`,
-      sec2: `El marcador fija el archivo exacto mediante su huella (SRI): si el archivo publicado cambia, el navegador se niega a ejecutarlo. A cambio, tras una actualización tendrás que crear el marcador de nuevo desde esta página.`,
+      sec2: `El script se carga desde este sitio cada vez que ejecutas el marcador, así que las actualizaciones llegan solas. También significa que quien controle este sitio controla lo que se ejecuta en tu Headrush: usa solo la página oficial o tu propia copia.`,
       sec3: `La app solo puede escribir el estado de escenas y footswitches (selección de escena, A/B, latch, hold). Nunca guarda, renombra ni elimina rigs. No envía nada a ningún sitio: solo habla con tu Headrush.`,
       sec4: `El Headrush no tiene contraseña: cualquiera en tu red ya puede controlarlo. Proyecto no oficial, sin relación con Headrush.`,
-      file: `Archivo:`,
       limTitle: `Límites`,
       lim1: `Tienes que abrir el Headrush y ejecutar el marcador cada vez. No se puede instalar como aplicación (la página del Headrush usa HTTP sin cifrar).`,
       lim2: `Si una actualización del firmware endurece la política de seguridad del dispositivo, el script podría dejar de cargarse.`,
-      fail: `Headrush Remote Buttons: no se pudo cargar o verificar el script. ¿Abrir la página para crear el marcador de nuevo?`,
+      fail: `Headrush Remote Buttons: no se pudo cargar el script. ¿Abrir la página con las instrucciones?`,
     },
     fr: {
       tagline: `Une télécommande tactile pour les pédaliers Headrush (scènes et footswitches) qui fonctionne dans votre navigateur. Aucune appli ni serveur à installer.`,
@@ -162,14 +157,13 @@
       desktop: `<b>Ordinateur :</b> cliquez sur le favori.`,
       secTitle: `Sécurité : à lire`,
       sec1: `Le script s'exécute <b>dans la page même de votre Headrush</b> avec les mêmes droits que l'éditeur officiel. N'utilisez qu'un favori créé sur une page de confiance, jamais un favori fourni par quelqu'un d'autre.`,
-      sec2: `Le favori verrouille le fichier exact grâce à son empreinte (SRI) : si le fichier publié change, le navigateur refuse de l'exécuter. Contrepartie : après une mise à jour, vous devez recréer le favori depuis cette page.`,
+      sec2: `Le script est chargé depuis ce site à chaque exécution du favori, les mises à jour arrivent donc toutes seules. Cela signifie aussi que celui qui contrôle ce site contrôle ce qui s'exécute sur votre Headrush : n'utilisez que la page officielle ou votre propre copie.`,
       sec3: `L'appli peut seulement écrire l'état des scènes et des footswitches (sélection de scène, A/B, latch, hold). Elle n'enregistre, ne renomme ni ne supprime jamais de rigs. Rien n'est envoyé ailleurs : elle ne parle qu'à votre Headrush.`,
       sec4: `Le Headrush n'a pas de mot de passe : toute personne sur votre réseau peut déjà le contrôler. Projet non officiel, non affilié à Headrush.`,
-      file: `Fichier :`,
       limTitle: `Limites`,
       lim1: `Il faut ouvrir le Headrush et lancer le favori à chaque fois. Impossible de l'installer comme une appli (la page du Headrush est en HTTP simple).`,
       lim2: `Si une mise à jour du firmware durcit la politique de sécurité de l'appareil, le script risque de ne plus se charger.`,
-      fail: `Headrush Remote Buttons : impossible de charger ou de vérifier le script. Ouvrir la page pour recréer le favori ?`,
+      fail: `Headrush Remote Buttons : impossible de charger le script. Ouvrir la page d'instructions ?`,
     },
     de: {
       tagline: `Eine Touch-Fernbedienung für Headrush-Pedalboards (Szenen und Fußschalter), die im Browser läuft. Keine App, kein Server zu installieren.`,
@@ -186,14 +180,13 @@
       desktop: `<b>Computer:</b> Lesezeichen anklicken.`,
       secTitle: `Sicherheit: bitte lesen`,
       sec1: `Das Skript läuft <b>in der eigenen Seite deines Headrush</b> mit denselben Rechten wie der offizielle Editor. Verwende nur ein Lesezeichen, das du auf einer vertrauenswürdigen Seite erstellt hast, nie eines von jemand anderem.`,
-      sec2: `Das Lesezeichen legt die exakte Datei über ihren Hash (SRI) fest: Ändert sich die veröffentlichte Datei, weigert sich der Browser, sie auszuführen. Der Preis: Nach einem Update musst du das Lesezeichen auf dieser Seite neu erstellen.`,
+      sec2: `Das Skript wird bei jeder Ausführung des Lesezeichens von dieser Seite geladen, Updates kommen also automatisch an. Das heißt aber auch: Wer diese Seite kontrolliert, kontrolliert, was auf deinem Headrush läuft. Nutze nur die offizielle Seite oder deine eigene Kopie.`,
       sec3: `Die App kann nur den Zustand von Szenen und Fußschaltern schreiben (Szenenwahl, A/B, Latch, Hold). Sie speichert, benennt oder löscht nie Rigs. Es wird nichts nach außen gesendet: Sie spricht nur mit deinem Headrush.`,
       sec4: `Der Headrush hat kein Passwort: Jeder in deinem Netzwerk kann ihn bereits steuern. Inoffizielles Projekt, nicht mit Headrush verbunden.`,
-      file: `Datei:`,
       limTitle: `Einschränkungen`,
       lim1: `Du musst den Headrush jedes Mal öffnen und das Lesezeichen ausführen. Als App installieren geht nicht (die Headrush-Seite nutzt unverschlüsseltes HTTP).`,
       lim2: `Verschärft ein Firmware-Update die Sicherheitsrichtlinie des Geräts, wird das Skript möglicherweise nicht mehr geladen.`,
-      fail: `Headrush Remote Buttons: Das Skript konnte nicht geladen oder überprüft werden. Seite öffnen, um das Lesezeichen neu zu erstellen?`,
+      fail: `Headrush Remote Buttons: Das Skript konnte nicht geladen werden. Seite mit der Anleitung öffnen?`,
     },
     pt: {
       tagline: `Um controle remoto por toque para pedaleiras Headrush (cenas e footswitches) que funciona no navegador. Sem app nem servidor para instalar.`,
@@ -210,14 +203,13 @@
       desktop: `<b>Computador:</b> clique no favorito.`,
       secTitle: `Segurança: leia isto`,
       sec1: `O script é executado <b>dentro da própria página do seu Headrush</b> com os mesmos poderes do editor oficial. Use apenas um favorito criado numa página em que você confia, nunca um que outra pessoa lhe tenha dado.`,
-      sec2: `O favorito fixa o arquivo exato pelo seu hash (SRI): se o arquivo publicado mudar, o navegador se recusa a executá-lo. O custo: após uma atualização, é preciso criar o favorito de novo a partir desta página.`,
+      sec2: `O script é carregado deste site sempre que você executa o favorito, então as atualizações chegam sozinhas. Isso também significa que quem controla este site controla o que roda no seu Headrush: use apenas a página oficial ou a sua própria cópia.`,
       sec3: `O app só pode gravar o estado das cenas e dos footswitches (seleção de cena, A/B, latch, hold). Nunca salva, renomeia nem apaga rigs. Nada é enviado para outro lugar: ele só fala com o seu Headrush.`,
       sec4: `O Headrush não tem senha: qualquer pessoa na sua rede já pode controlá-lo. Projeto não oficial, sem vínculo com a Headrush.`,
-      file: `Arquivo:`,
       limTitle: `Limites`,
       lim1: `É preciso abrir o Headrush e executar o favorito a cada uso. Não dá para instalar como app (a página do Headrush usa HTTP simples).`,
       lim2: `Se uma atualização de firmware endurecer a política de segurança do dispositivo, o script pode deixar de carregar.`,
-      fail: `Headrush Remote Buttons: não foi possível carregar ou verificar o script. Abrir a página para criar o favorito de novo?`,
+      fail: `Headrush Remote Buttons: não foi possível carregar o script. Abrir a página com as instruções?`,
     },
     ja: {
       tagline: `ブラウザで動く Headrush ペダルボード用のタッチリモコン（シーンとフットスイッチ）。アプリもサーバーもインストール不要です。`,
@@ -234,14 +226,13 @@
       desktop: `<b>パソコン：</b> ブックマークをクリックします。`,
       secTitle: `セキュリティ：必ずお読みください`,
       sec1: `スクリプトは <b>Headrush 自身のページの中</b> で、公式エディターと同じ権限で動作します。信頼できるページで自分で作成したブックマークレットだけを使い、他人から渡されたものは使わないでください。`,
-      sec2: `ブックマークレットはハッシュ（SRI）で正確なファイルを固定します。公開ファイルが変更されると、ブラウザーは実行を拒否します。その代わり、更新後はこのページでブックマークレットを作り直す必要があります。`,
+      sec2: `ブックマークを実行するたびに、このサイトからスクリプトを読み込みます。そのため更新は自動的に反映されます。同時に、このサイトを管理する人が Headrush 上で動くコードを決められることになります。公式ページか、自分でコピーしたものだけを使ってください。`,
       sec3: `このアプリが書き込めるのはシーンとフットスイッチの状態（シーン選択、A/B、ラッチ、ホールド）だけです。リグの保存、名前変更、削除は一切行いません。外部には何も送信せず、通信相手はあなたの Headrush だけです。`,
       sec4: `Headrush にはパスワードがありません。同じネットワーク内の誰でも、すでに操作できます。非公式プロジェクトで、Headrush とは関係ありません。`,
-      file: `ファイル：`,
       limTitle: `制限事項`,
       lim1: `使うたびに Headrush を開いてブックマークを実行する必要があります。アプリとしてインストールはできません（Headrush のページは暗号化されていない HTTP です）。`,
       lim2: `ファームウェア更新でデバイスのセキュリティポリシーが厳しくなると、スクリプトが読み込まれなくなる可能性があります。`,
-      fail: `Headrush Remote Buttons：スクリプトを読み込めないか、検証に失敗しました。ページを開いてブックマークレットを作り直しますか？`,
+      fail: `Headrush Remote Buttons：スクリプトを読み込めませんでした。手順のページを開きますか？`,
     },
     zh: {
       tagline: `在浏览器中运行的 Headrush 效果器触控遥控器（场景和脚踏开关）。无需安装应用，也无需服务器。`,
@@ -258,17 +249,16 @@
       desktop: `<b>电脑：</b>点击该书签。`,
       secTitle: `安全：请阅读`,
       sec1: `该脚本在 <b>Headrush 自己的页面内</b>运行，权限与官方编辑器相同。只使用你在可信页面上创建的书签小程序，切勿使用他人提供的。`,
-      sec2: `书签小程序通过哈希（SRI）锁定确切的文件：如果托管的文件发生变化，浏览器会拒绝运行。代价是：更新后你需要在本页面重新创建书签小程序。`,
+      sec2: `每次运行书签时，脚本都会从本站加载，因此更新会自动生效。这也意味着，控制本站的人就能决定在你的 Headrush 上运行什么：请只使用官方页面或你自己的副本。`,
       sec3: `本应用只能写入场景和脚踏开关的状态（选择场景、A/B、锁定、按住）。它不会保存、重命名或删除任何 rig。不会向任何地方发送数据：只与你的 Headrush 通信。`,
       sec4: `Headrush 没有密码：同一网络中的任何人本来就可以控制它。非官方项目，与 Headrush 无关联。`,
-      file: `文件：`,
       limTitle: `限制`,
       lim1: `每次使用都需要先打开 Headrush 再运行书签。无法安装为应用（Headrush 的页面使用未加密的 HTTP）。`,
       lim2: `如果固件更新收紧了设备的安全策略，脚本可能无法再加载。`,
-      fail: `Headrush Remote Buttons：无法加载或验证脚本。要打开页面重新创建书签小程序吗？`,
+      fail: `Headrush Remote Buttons：无法加载脚本。要打开说明页面吗？`,
     },
   };
-  const ENGLISH_FAIL = "Headrush Remote Buttons: could not load or verify the script. Open the page to create the bookmarklet again?";
+  const ENGLISH_FAIL = "Headrush Remote Buttons: could not load the script. Open the page for instructions?";
   const ENGLISH_COPIED = ["Copied.", "Copy failed: long-press the orange button."];
 
   const $ = (id) => document.getElementById(id);
@@ -291,10 +281,10 @@
   function bookmarklet() {
     const src = new URL(FILE, location.href).href;
     const page = location.href.split("#")[0];
-    // se il file non si carica o l'impronta non coincide, propone di aprire questa pagina per ricreare il segnalibro
+    // se lo script non si carica propone di aprire questa pagina
     return "javascript:(()=>{var s=document.createElement('script');s.src=" + JSON.stringify(src) +
-      ";s.integrity=" + JSON.stringify(INTEGRITY) + ";s.crossOrigin='anonymous';s.onerror=()=>{if(confirm(" + JSON.stringify(t("fail")) +
-      "))location.href=" + JSON.stringify(page) + "};document.head.appendChild(s)})();";
+      ";s.onerror=()=>{if(confirm(" + JSON.stringify(t("fail")) + "))location.href=" + JSON.stringify(page) +
+      "};document.head.appendChild(s)})();";
   }
 
   function apply(next) {
@@ -309,8 +299,6 @@
     try { localStorage.setItem("lang", lang); } catch {}
   }
 
-  $("file").textContent = FILE;
-  $("sha").textContent = INTEGRITY;
   $("bm").addEventListener("click", (e) => e.preventDefault()); // si trascina, non si clicca da qui
   langSelect.addEventListener("change", () => apply(langSelect.value));
 

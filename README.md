@@ -40,8 +40,9 @@ and Drum Machine are driven like a normal latch/hold press.
 
 The script runs inside the device's page with the same powers as the official editor.
 
-* The bookmark pins the exact file with an SRI hash: if the hosted file changes, the browser refuses
-  to run it. After an update you must create the bookmark again from the page.
+* The script is loaded from the GitHub Pages site every time you run the bookmark, so updates arrive
+  automatically. It also means that whoever controls that site controls what runs on your Headrush:
+  use the official page, or deploy your own copy (fork the repository and enable Pages).
 * The app can only write scene and footswitch state (`SceneActive`, `SceneState`, `FootSwitchOn`,
   `FootswitchHeld`, footswitches 1-10); anything else is rejected before the request is made
   (`assertWritable` in `src/headrush.ts`). It never saves, renames or deletes rigs.
@@ -61,7 +62,7 @@ The script runs inside the device's page with the same powers as the official ed
 ```bash
 npm install
 npm run typecheck
-npm run build:pages   # builds pages-dist/ (bundle + instructions page with the SRI hash)
+npm run build:pages   # builds pages-dist/ (remote.js + instructions page)
 ```
 
 `.github/workflows/pages.yml` deploys `pages-dist/` to GitHub Pages on every push to `main`
