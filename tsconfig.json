@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022", "module": "ESNext", "moduleResolution": "bundler",
-    "strict": true, "allowImportingTsExtensions": true, "noEmit": true, "skipLibCheck": true, "types": ["node", "svelte"], "verbatimModuleSyntax": true
+    "strict": true, "noEmit": true, "skipLibCheck": true, "types": ["node", "svelte"], "verbatimModuleSyntax": true
   },
-  "include": ["src", "server", "vite.config.ts"]
+  "include": ["src", "vite.bookmarklet.config.ts"]
 }

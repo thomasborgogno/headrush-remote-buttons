@@ -1,8 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { readSnapshot, pressScene, toggleLatch, setHeld, HttpError, type Pedal, type Snapshot } from './core';
-  import Setup from './Setup.svelte';
-  import { getSetup, saveHost, rememberedHost, rememberHost } from './setup';
+  import { readSnapshot, pressScene, toggleLatch, setHeld, type Pedal, type Snapshot } from './headrush';
   import { t } from './i18n';
 
   type View = 'A' | 'B' | 'ALL';
@@ -21,10 +19,7 @@
   }
 
   let snap = $state<Snapshot | null>(null);
-  let proxyDown = $state(false); // il server dell'app non risponde
-  let coreDown = $state(false); // il server risponde ma non raggiunge il Core
-  let setupOpen = $state(false);
-  let setupDismissed = false;
+  let offline = $state(false);
   let view = $state<View>(loadView());
   const held = new Set<number>();
 
@@ -40,63 +35,12 @@
     return view === 'ALL' ? [bank('A'), bank('B')] : [bank(view)];
   });
 
-  // Modalità diretta (bookmarklet): l'app gira dentro la pagina del Core, nessun server e nessun wizard
-  const DIRECT = import.meta.env.VITE_DIRECT === '1';
-
-  let restoring = false;
-  let restoreTried = false;
-  let rememberedCurrent = false;
-
-  function ok() {
-    proxyDown = false;
-    coreDown = false;
-    // dopo il primo collegamento riuscito ricorda l'indirizzo anche nel browser
-    if (!DIRECT && !rememberedCurrent) {
-      rememberedCurrent = true;
-      getSetup().then((i) => i.reachable && rememberHost(i.host)).catch(() => {});
-    }
-  }
-
-  // Il server non trova più il Core: prima di disturbare l'utente prova l'ultimo indirizzo noto al browser
-  async function restoreRemembered() {
-    restoring = true;
-    const host = rememberedHost();
-    try {
-      if (host && (await saveHost(host)).ok) {
-        restoring = false;
-        refresh();
-        return;
-      }
-    } catch {}
-    restoring = false;
-    if (!setupDismissed) setupOpen = true;
-  }
-
-  function fail(e: unknown) {
-    if (DIRECT) {
-      coreDown = true; // qui ogni errore è un errore del Core
-    } else if (e instanceof HttpError && e.coreUnreachable) {
-      proxyDown = false;
-      coreDown = true;
-      if (restoring) return;
-      if (!restoreTried) {
-        restoreTried = true;
-        restoreRemembered();
-        return;
-      }
-      // se l'utente chiude il wizard non riaprirlo da solo
-      if (!setupDismissed) setupOpen = true;
-    } else {
-      proxyDown = true;
-    }
-  }
-
   async function refresh() {
     try {
       snap = await readSnapshot();
-      ok();
-    } catch (e) {
-      fail(e);
+      offline = false;
+    } catch {
+      offline = true;
     }
   }
 
@@ -104,14 +48,9 @@
     try {
       await action;
       refresh();
-    } catch (e) {
-      fail(e);
+    } catch {
+      offline = true;
     }
-  }
-
-  function closeSetup() {
-    setupOpen = false;
-    setupDismissed = true;
   }
 
   function down(e: PointerEvent, p: Pedal) {
@@ -156,7 +95,6 @@
   });
 
   const MODE_TAG: Record<string, string> = { latch: t.latch, hold: t.hold, scene: t.scene };
-  let offline = $derived(proxyDown || coreDown);
 </script>
 
 <header>
@@ -167,10 +105,7 @@
     {/each}
   </nav>
   <span class="tools">
-    {#if !DIRECT}
-      <button class="gear" aria-label={t.settings} title={t.settings} onclick={() => (setupOpen = true)}>⚙</button>
-    {/if}
-    <span class="dot" class:off={offline} title={offline ? t.coreUnreachable : t.connected}></span>
+    <span class="dot" class:off={offline} title={offline ? t.unreachable : t.connected}></span>
   </span>
 </header>
 
@@ -205,13 +140,4 @@
   {/each}
 </main>
 
-{#if offline && !setupOpen}
-  <div class="banner">
-    {proxyDown ? t.proxyUnreachable : t.coreUnreachable}
-    {#if coreDown && !DIRECT}<button onclick={() => (setupOpen = true)}>{t.settings}</button>{/if}
-  </div>
-{/if}
-
-{#if setupOpen}
-  <Setup onclose={closeSetup} onsaved={refresh} />
-{/if}
+{#if offline}<div class="banner">{t.unreachable}</div>{/if}

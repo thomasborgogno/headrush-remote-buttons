@@ -37,7 +37,3 @@ button.pedal.on { background: var(--c); border-color: #fff; color: #000;
   background: #e74c3c; color: #fff; font-weight: 600; }
 @media (max-width: 600px) { section { gap: 8px; } .pedal { padding: 4px; } .num { font-size: .6rem; left: 6px; } }
 .tools { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.gear { background: transparent; border: 2px solid #2a2a33; color: var(--fg); border-radius: 10px;
-  width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; }
-.banner button { margin-left: 12px; padding: 4px 12px; border-radius: 8px; border: 2px solid #fff;
-  background: transparent; color: #fff; font: inherit; font-weight: 600; cursor: pointer; }

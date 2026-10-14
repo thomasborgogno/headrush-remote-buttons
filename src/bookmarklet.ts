@@ -1,5 +1,5 @@
-// Punto di ingresso della versione "senza server": viene eseguito DENTRO la pagina dell'editor del Core
-// (http://<core>/), quindi le chiamate all'API sono della stessa origine.
+// Punto di ingresso del bundle: viene eseguito DENTRO la pagina dell'editor dell'Headrush
+// (http://<indirizzo>/), quindi le chiamate all'API sono della stessa origine.
 import { mount } from 'svelte';
 import css from './app.css?inline';
 import App from './App.svelte';

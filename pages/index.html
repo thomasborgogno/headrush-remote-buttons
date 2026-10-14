@@ -31,8 +31,10 @@
 <body>
 <main>
   <h1>Headrush Remote Buttons</h1>
-  <p class="muted" lang-en>A touch remote for the Headrush Core (scenes and footswitches) that runs in your browser. No app, no server to install.</p>
-  <p class="muted" lang-it>Un telecomando touch per l'Headrush Core (scene e footswitch) che gira nel browser. Nessuna app e nessun server da installare.</p>
+  <p class="muted" lang-en>A touch remote for Headrush pedalboards (scenes and footswitches) that runs in your browser. No app, no server to install.</p>
+  <p class="muted" lang-it>Un telecomando touch per le pedaliere Headrush (scene e footswitch) che gira nel browser. Nessuna app e nessun server da installare.</p>
+  <p class="muted" lang-en>Tested only on the Headrush Core. It may work with other models that have the same web editor (Flex Prime, Pedalboard), but that is untested.</p>
+  <p class="muted" lang-it>Testato solo su Headrush Core. Potrebbe funzionare con altri modelli che hanno lo stesso editor web (Flex Prime, Pedalboard), ma non è stato provato.</p>
 
   <section class="card">
     <h2 lang-en>1. Create the bookmarklet</h2><h2 lang-it>1. Crea il segnalibro</h2>
@@ -46,13 +48,15 @@
   </section>
 
   <section class="card">
-    <h2 lang-en>2. Open your Core and tap the bookmark</h2><h2 lang-it>2. Apri il Core e tocca il segnalibro</h2>
-    <p lang-en>Open the Core's address in the same browser (phone and Core on the same network), then run the bookmark.</p>
-    <p lang-it>Apri l'indirizzo del Core nello stesso browser (telefono e Core sulla stessa rete), poi esegui il segnalibro.</p>
+    <h2 lang-en>2. Open your Headrush and tap the bookmark</h2><h2 lang-it>2. Apri il tuo Headrush e tocca il segnalibro</h2>
+    <p lang-en>Type your Headrush's IP address, open it in the same browser (phone and Headrush on the same network), then run the bookmark. The address is remembered on this device.</p>
+    <p lang-it>Scrivi l'indirizzo IP del tuo Headrush e aprilo nello stesso browser (telefono e Headrush sulla stessa rete), poi esegui il segnalibro. L'indirizzo viene ricordato su questo dispositivo.</p>
     <div class="row">
-      <input id="core" placeholder="192.168.1.50  /  HeadRushCore.local" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" />
-      <a id="open" class="btn" href="#"><span lang-en>Open the Core</span><span lang-it>Apri il Core</span></a>
+      <input id="host" placeholder="192.168.1.50" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      <a id="open" class="btn" href="#"><span lang-en>Open</span><span lang-it>Apri</span></a>
     </div>
+    <p class="muted" style="margin-top:12px" lang-en><b>Don't know the IP?</b> This page can't search for it (browsers don't allow a secure page to scan your network). Look in the pedalboard's Wi-Fi/network settings, or in your router's list of connected devices (usually a device named "Headrush").</p>
+    <p class="muted" style="margin-top:12px" lang-it><b>Non conosci l'IP?</b> Questa pagina non può cercarlo (i browser non permettono a una pagina sicura di scansionare la tua rete). Guardalo nelle impostazioni Wi-Fi/rete della pedaliera, oppure nell'elenco dei dispositivi connessi del router (di solito un dispositivo chiamato "Headrush").</p>
     <ul class="muted" style="margin-top:12px">
       <li lang-en><b>iPhone / iPad (Safari):</b> open Bookmarks, tap the bookmark.</li>
       <li lang-it><b>iPhone / iPad (Safari):</b> apri i Preferiti e tocca il segnalibro.</li>
@@ -66,14 +70,14 @@
   <section class="card warn">
     <h2 lang-en>Security: read this</h2><h2 lang-it>Sicurezza: leggi qui</h2>
     <ul>
-      <li lang-en>The script runs <b>inside the Core's page</b> with the same powers as the official editor. Only use a bookmarklet created on a page you trust, never one given to you by someone else.</li>
-      <li lang-it>Lo script gira <b>dentro la pagina del Core</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.</li>
+      <li lang-en>The script runs <b>inside your Headrush's own page</b> with the same powers as the official editor. Only use a bookmarklet created on a page you trust, never one given to you by someone else.</li>
+      <li lang-it>Lo script gira <b>dentro la pagina del tuo Headrush</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.</li>
       <li lang-en>The bookmarklet pins the exact file by its hash (SRI): if the hosted file ever changes, the browser refuses to run it. The cost: after an update you must create the bookmarklet again from this page.</li>
       <li lang-it>Il segnalibro fissa il file esatto con la sua impronta (SRI): se il file pubblicato cambia, il browser rifiuta di eseguirlo. Il prezzo: dopo un aggiornamento devi ricreare il segnalibro da questa pagina.</li>
-      <li lang-en>The app can only write scene and footswitch state (scene selection, A/B, latch, hold). It never saves, renames or deletes rigs. Nothing is sent anywhere: it only talks to your Core.</li>
-      <li lang-it>L'app può scrivere solo lo stato di scene e footswitch (selezione scena, A/B, latch, hold). Non salva, rinomina né elimina mai i rig. Non invia nulla altrove: parla solo con il tuo Core.</li>
-      <li lang-en>The Core has no password: anyone on your network can already control it. Unofficial project, not affiliated with Headrush.</li>
-      <li lang-it>Il Core non ha password: chiunque sulla tua rete può già controllarlo. Progetto non ufficiale, non affiliato a Headrush.</li>
+      <li lang-en>The app can only write scene and footswitch state (scene selection, A/B, latch, hold). It never saves, renames or deletes rigs. Nothing is sent anywhere: it only talks to your Headrush.</li>
+      <li lang-it>L'app può scrivere solo lo stato di scene e footswitch (selezione scena, A/B, latch, hold). Non salva, rinomina né elimina mai i rig. Non invia nulla altrove: parla solo con il tuo Headrush.</li>
+      <li lang-en>The Headrush has no password: anyone on your network can already control it. Unofficial project, not affiliated with Headrush.</li>
+      <li lang-it>L'Headrush non ha password: chiunque sulla tua rete può già controllarlo. Progetto non ufficiale, non affiliato a Headrush.</li>
     </ul>
     <p class="muted" style="margin-top:12px"><span lang-en>File:</span><span lang-it>File:</span> <code id="file"></code><br />SHA-384: <span class="hash" id="sha"></span></p>
   </section>
@@ -81,10 +85,10 @@
   <section class="card">
     <h2 lang-en>Limits</h2><h2 lang-it>Limiti</h2>
     <ul>
-      <li lang-en>You have to open the Core and run the bookmark each time. It can't be installed as an app (the Core's page is plain HTTP). For an installable app, run the server version from the repository.</li>
-      <li lang-it>Devi aprire il Core ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina del Core è in HTTP semplice). Per un'app installabile usa la versione con server del repository.</li>
-      <li lang-en>If a firmware update tightens the Core's security policy, the script may stop loading.</li>
-      <li lang-it>Se un aggiornamento del firmware restringe la politica di sicurezza del Core, lo script potrebbe non caricarsi più.</li>
+      <li lang-en>You have to open the Headrush and run the bookmark each time. It can't be installed as an app (the Headrush page is plain HTTP).</li>
+      <li lang-it>Devi aprire l'Headrush ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina dell'Headrush è in HTTP semplice).</li>
+      <li lang-en>If a firmware update tightens the device's security policy, the script may stop loading.</li>
+      <li lang-it>Se un aggiornamento del firmware restringe la politica di sicurezza del dispositivo, lo script potrebbe non caricarsi più.</li>
     </ul>
   </section>
 </main>
@@ -121,15 +125,15 @@
     }
   });
 
-  const core = document.getElementById("core");
+  const host = document.getElementById("host");
   const open = document.getElementById("open");
-  try { core.value = localStorage.getItem("core") || ""; } catch {}
+  try { host.value = localStorage.getItem("host") || ""; } catch {}
   const update = () => {
-    const raw = core.value.trim().replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
+    const raw = host.value.trim().replace(/^https?:\/\//i, "").replace(/\/.*$/, "");
     open.href = raw ? "http://" + raw + "/" : "#";
-    try { localStorage.setItem("core", raw); } catch {}
+    try { localStorage.setItem("host", raw); } catch {}
   };
-  core.addEventListener("input", update);
+  host.addEventListener("input", update);
   update();
 </script>
 </body>
