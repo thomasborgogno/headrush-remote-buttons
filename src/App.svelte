@@ -109,6 +109,7 @@
 
 <main class:offline>
   {#each rows as row}
+    {@const visible = row.filter((x) => x.mode !== 'empty')}
     <section>
       {#each row as p (p.index)}
         {#if p.mode === 'empty'}
@@ -117,6 +118,7 @@
           <button
             class="pedal {p.mode}"
             class:on={p.on}
+            class:wide={visible.length % 2 === 1 && p.index === visible[visible.length - 1].index}
             style:--c={p.colour}
             onpointerdown={(e) => down(e, p)}
             onpointerup={() => up(p)}

@@ -5,12 +5,12 @@ html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
 #app { height: 100%; display: flex; flex-direction: column;
   padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
            max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); gap: 12px; }
-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 1.1rem; }
-.rig { font-weight: 600; opacity: .85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-nav { display: flex; border: 2px solid #2a2a33; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
-nav button { background: transparent; color: var(--fg); border: 0; padding: 10px 18px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.rig { font-size: 1.4rem; font-weight: 700; opacity: .9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+nav { display: flex; border: 2px solid #2a2a33; border-radius: 14px; overflow: hidden; flex-shrink: 0; }
+nav button { background: transparent; color: var(--fg); border: 0; padding: 14px 24px; min-height: 52px; font-size: 1.15rem; font-weight: 600; cursor: pointer; }
 nav button.sel { background: #ff5a1f; color: #000; }
-.dot { width: 12px; height: 12px; border-radius: 50%; background: #2ecc71; flex-shrink: 0; }
+.dot { width: 16px; height: 16px; border-radius: 50%; background: #2ecc71; flex-shrink: 0; }
 .dot.off { background: #e74c3c; }
 main { flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
 main.offline { opacity: .5; }
@@ -35,5 +35,31 @@ button.pedal.on { background: var(--c); border-color: #fff; color: #000;
 .ab b.sel { opacity: 1; background: #000; color: var(--c); border-color: #000; }
 .banner { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px; text-align: center;
   background: #e74c3c; color: #fff; font-weight: 600; }
-@media (max-width: 600px) { section { gap: 8px; } .pedal { padding: 4px; } .num { font-size: .6rem; left: 6px; } }
+/* Telefono in verticale: header su due righe e pedali grandi in due colonne, si scorre se serve.
+   I segnaposto vuoti si nascondono (qui lo spazio vale più della posizione fisica). */
+@media (orientation: portrait) and (max-width: 700px) {
+  #app { gap: 14px; }
+  header { flex-wrap: wrap; }
+  .rig { order: 1; flex: 1 1 0; min-width: 0; font-size: 1.7rem; }
+  .tools { order: 2; }
+  nav { order: 3; width: 100%; }
+  nav button { flex: 1; padding: 16px 6px; min-height: 56px; font-size: 1.2rem; }
+  main { overflow-y: auto; gap: 14px; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+  section { flex: none; grid-template-columns: repeat(2, 1fr); grid-auto-rows: max(120px, 19vh); gap: 12px; }
+  .pedal.empty { display: none; }
+  .pedal.wide { grid-column: 1 / -1; }
+  .num { font-size: .75rem; }
+  .label { font-size: clamp(1.4rem, 7vw, 2.2rem); }
+  .op { font-size: 1rem; }
+  .ab b { min-width: 40px; padding: 4px 8px; font-size: 1.05rem; }
+}
+
+/* Telefono in orizzontale: poca altezza, header più compatto */
+@media (orientation: landscape) and (max-height: 500px) {
+  #app { gap: 8px; }
+  section, main { gap: 8px; }
+  .rig { font-size: 1.2rem; }
+  nav button { padding: 8px 18px; min-height: 44px; font-size: 1.05rem; }
+  .pedal { min-height: 60px; }
+}
 .tools { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }

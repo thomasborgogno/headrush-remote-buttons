@@ -26,6 +26,7 @@
     .warn { border-color: #6b4a1f; }
     .ok { color: #2ecc71; min-height: 1.5em; }
     .gap { margin-top: 12px; }
+    code { font-family: ui-monospace, monospace; font-size: .85rem; }
   </style>
 </head>
 <body>
@@ -53,6 +54,11 @@
       <a id="bm" class="btn primary" href="#">Headrush Remote Buttons</a>
       <button id="copy" type="button" data-i18n="copy">Copy</button>
       <span id="copied" class="ok" role="status"></span>
+    </div>
+    <p class="muted gap" data-i18n="altText"><b>Android, if the bookmark does nothing:</b> Chrome may ignore bookmarks that start with “javascript:” and removes that prefix when you paste. Open your Headrush page, tap the address bar, <b>type</b> <code>javascript:</code>, paste the script right after it (button below) and press Go.</p>
+    <div class="row">
+      <button id="copyBody" type="button" data-i18n="copyBody">Copy script only</button>
+      <span id="copiedBody" class="ok" role="status"></span>
     </div>
   </section>
 
@@ -108,6 +114,8 @@
       ipHelp: `<b>Non conosci l'IP?</b> Questa pagina non può cercarlo (i browser non permettono a una pagina sicura di scansionare la tua rete). Guardalo nelle impostazioni Wi-Fi/rete della pedaliera, oppure nell'elenco dei dispositivi connessi del router (di solito un dispositivo chiamato "Headrush").`,
       ios: `<b>iPhone / iPad (Safari):</b> apri i Preferiti e tocca il segnalibro.`,
       android: `<b>Android (Chrome):</b> scrivi il nome del segnalibro nella barra degli indirizzi e sceglilo dai suggerimenti. Firefox permette di eseguirlo dal menu dei segnalibri.`,
+      altText: `<b>Android, se il segnalibro non fa nulla:</b> Chrome può ignorare i segnalibri che iniziano con «javascript:» e toglie quel prefisso quando incolli. Apri la pagina del tuo Headrush, tocca la barra degli indirizzi, <b>scrivi</b> <code>javascript:</code>, incolla subito dopo lo script (pulsante qui sotto) e premi Vai.`,
+      copyBody: `Copia solo lo script`,
       desktop: `<b>Computer:</b> clicca il segnalibro.`,
       secTitle: `Sicurezza: leggi qui`,
       sec1: `Lo script gira <b>dentro la pagina del tuo Headrush</b> con gli stessi poteri dell'editor ufficiale. Usa solo un segnalibro creato su una pagina di cui ti fidi, mai uno che ti ha dato qualcun altro.`,
@@ -131,6 +139,8 @@
       ipHelp: `<b>¿No conoces la IP?</b> Esta página no puede buscarla (los navegadores no permiten que una página segura analice tu red). Búscala en los ajustes de Wi-Fi/red de la pedalera o en la lista de dispositivos conectados de tu router (normalmente un dispositivo llamado "Headrush").`,
       ios: `<b>iPhone / iPad (Safari):</b> abre Marcadores y toca el marcador.`,
       android: `<b>Android (Chrome):</b> escribe el nombre del marcador en la barra de direcciones y elígelo entre las sugerencias. Firefox permite ejecutarlo desde el menú de marcadores.`,
+      altText: `<b>Android, si el marcador no hace nada:</b> Chrome puede ignorar los marcadores que empiezan por «javascript:» y quita ese prefijo al pegar. Abre la página de tu Headrush, toca la barra de direcciones, <b>escribe</b> <code>javascript:</code>, pega justo después el script (botón de abajo) y pulsa Ir.`,
+      copyBody: `Copiar solo el script`,
       desktop: `<b>Ordenador:</b> haz clic en el marcador.`,
       secTitle: `Seguridad: léelo`,
       sec1: `El script se ejecuta <b>dentro de la propia página de tu Headrush</b> con los mismos permisos que el editor oficial. Usa solo un marcador creado en una página de confianza, nunca uno que te haya dado otra persona.`,
@@ -154,6 +164,8 @@
       ipHelp: `<b>Vous ne connaissez pas l'IP ?</b> Cette page ne peut pas la chercher (les navigateurs interdisent à une page sécurisée d'analyser votre réseau). Cherchez-la dans les réglages Wi-Fi/réseau du pédalier ou dans la liste des appareils connectés de votre routeur (généralement un appareil nommé « Headrush »).`,
       ios: `<b>iPhone / iPad (Safari) :</b> ouvrez les Favoris et touchez le favori.`,
       android: `<b>Android (Chrome) :</b> saisissez le nom du favori dans la barre d'adresse et choisissez-le dans les suggestions. Firefox permet de le lancer depuis le menu des favoris.`,
+      altText: `<b>Android, si le favori ne fait rien :</b> Chrome peut ignorer les favoris commençant par « javascript: » et supprime ce préfixe au collage. Ouvrez la page de votre Headrush, touchez la barre d'adresse, <b>saisissez</b> <code>javascript:</code>, collez le script juste après (bouton ci-dessous) et appuyez sur OK.`,
+      copyBody: `Copier le script seul`,
       desktop: `<b>Ordinateur :</b> cliquez sur le favori.`,
       secTitle: `Sécurité : à lire`,
       sec1: `Le script s'exécute <b>dans la page même de votre Headrush</b> avec les mêmes droits que l'éditeur officiel. N'utilisez qu'un favori créé sur une page de confiance, jamais un favori fourni par quelqu'un d'autre.`,
@@ -177,6 +189,8 @@
       ipHelp: `<b>IP unbekannt?</b> Diese Seite kann sie nicht suchen (Browser erlauben einer sicheren Seite nicht, dein Netzwerk zu scannen). Schau in den WLAN-/Netzwerkeinstellungen des Pedalboards oder in der Geräteliste deines Routers nach (meist ein Gerät namens „Headrush“).`,
       ios: `<b>iPhone / iPad (Safari):</b> Lesezeichen öffnen und das Lesezeichen antippen.`,
       android: `<b>Android (Chrome):</b> Gib den Namen des Lesezeichens in die Adressleiste ein und wähle ihn aus den Vorschlägen. In Firefox startest du es über das Lesezeichenmenü.`,
+      altText: `<b>Android, wenn das Lesezeichen nichts tut:</b> Chrome ignoriert Lesezeichen, die mit „javascript:“ beginnen, unter Umständen und entfernt dieses Präfix beim Einfügen. Öffne die Seite deines Headrush, tippe auf die Adressleiste, <b>tippe</b> <code>javascript:</code> ein, füge direkt danach das Skript ein (Schaltfläche unten) und drücke Los.`,
+      copyBody: `Nur Skript kopieren`,
       desktop: `<b>Computer:</b> Lesezeichen anklicken.`,
       secTitle: `Sicherheit: bitte lesen`,
       sec1: `Das Skript läuft <b>in der eigenen Seite deines Headrush</b> mit denselben Rechten wie der offizielle Editor. Verwende nur ein Lesezeichen, das du auf einer vertrauenswürdigen Seite erstellt hast, nie eines von jemand anderem.`,
@@ -200,6 +214,8 @@
       ipHelp: `<b>Não sabe o IP?</b> Esta página não consegue procurá-lo (os navegadores não permitem que uma página segura examine a sua rede). Procure nas configurações de Wi-Fi/rede da pedaleira ou na lista de dispositivos conectados do roteador (geralmente um dispositivo chamado "Headrush").`,
       ios: `<b>iPhone / iPad (Safari):</b> abra os Favoritos e toque no favorito.`,
       android: `<b>Android (Chrome):</b> digite o nome do favorito na barra de endereços e escolha-o nas sugestões. No Firefox, execute-o pelo menu de favoritos.`,
+      altText: `<b>Android, se o favorito não fizer nada:</b> o Chrome pode ignorar favoritos que começam com “javascript:” e remove esse prefixo ao colar. Abra a página do seu Headrush, toque na barra de endereços, <b>digite</b> <code>javascript:</code>, cole o script logo depois (botão abaixo) e toque em Ir.`,
+      copyBody: `Copiar só o script`,
       desktop: `<b>Computador:</b> clique no favorito.`,
       secTitle: `Segurança: leia isto`,
       sec1: `O script é executado <b>dentro da própria página do seu Headrush</b> com os mesmos poderes do editor oficial. Use apenas um favorito criado numa página em que você confia, nunca um que outra pessoa lhe tenha dado.`,
@@ -223,6 +239,8 @@
       ipHelp: `<b>IP アドレスが分からない場合：</b> このページでは検索できません（安全なページからネットワークをスキャンすることはブラウザーが許可していません）。ペダルボードの Wi-Fi／ネットワーク設定か、ルーターの接続機器一覧（通常は「Headrush」という名前の機器）で確認してください。`,
       ios: `<b>iPhone / iPad（Safari）：</b> ブックマークを開いて、ブックマークをタップします。`,
       android: `<b>Android（Chrome）：</b> アドレスバーにブックマークの名前を入力し、候補から選びます。Firefox ではブックマークメニューから実行できます。`,
+      altText: `<b>Android でブックマークが動かない場合：</b> Chrome は「javascript:」で始まるブックマークを無視することがあり、貼り付け時にもその接頭辞を取り除きます。Headrush のページを開き、アドレスバーをタップして <code>javascript:</code> と<b>入力</b>し、その直後にスクリプトを貼り付けて（下のボタン）、移動を押してください。`,
+      copyBody: `スクリプトのみコピー`,
       desktop: `<b>パソコン：</b> ブックマークをクリックします。`,
       secTitle: `セキュリティ：必ずお読みください`,
       sec1: `スクリプトは <b>Headrush 自身のページの中</b> で、公式エディターと同じ権限で動作します。信頼できるページで自分で作成したブックマークレットだけを使い、他人から渡されたものは使わないでください。`,
@@ -246,6 +264,8 @@
       ipHelp: `<b>不知道 IP？</b> 本页面无法搜索（浏览器不允许安全页面扫描你的网络）。请在效果器的 Wi-Fi/网络设置中查看，或在路由器的已连接设备列表中查找（通常是名为“Headrush”的设备）。`,
       ios: `<b>iPhone / iPad（Safari）：</b>打开书签，点击该书签。`,
       android: `<b>Android（Chrome）：</b>在地址栏输入书签名称，并从建议中选择。Firefox 可从书签菜单中运行。`,
+      altText: `<b>Android 上书签没有反应时：</b>Chrome 可能会忽略以“javascript:”开头的书签，粘贴时也会去掉这个前缀。打开你的 Headrush 页面，点按地址栏，<b>输入</b> <code>javascript:</code>，紧接着粘贴脚本（下方按钮），然后点“前往”。`,
+      copyBody: `仅复制脚本`,
       desktop: `<b>电脑：</b>点击该书签。`,
       secTitle: `安全：请阅读`,
       sec1: `该脚本在 <b>Headrush 自己的页面内</b>运行，权限与官方编辑器相同。只使用你在可信页面上创建的书签小程序，切勿使用他人提供的。`,
@@ -296,6 +316,7 @@
     document.querySelectorAll("[data-i18n]").forEach((el) => { el.innerHTML = dict[el.dataset.i18n] ?? defaults[el.dataset.i18n]; });
     $("bm").href = bookmarklet();
     $("copied").textContent = "";
+    $("copiedBody").textContent = "";
     try { localStorage.setItem("lang", lang); } catch {}
   }
 
@@ -308,6 +329,16 @@
       $("copied").textContent = t("copied");
     } catch {
       $("copied").textContent = t("copyFail");
+    }
+  });
+
+  // senza il prefisso "javascript:", da incollare dopo averlo scritto a mano nella barra degli indirizzi
+  $("copyBody").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(bookmarklet().replace(/^javascript:/, ""));
+      $("copiedBody").textContent = t("copied");
+    } catch {
+      $("copiedBody").textContent = t("copyFail");
     }
   });
 

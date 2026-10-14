@@ -10,13 +10,16 @@ const flag = window as unknown as { __headrushRemoteButtons?: boolean };
 if (!flag.__headrushRemoteButtons) {
   flag.__headrushRemoteButtons = true;
 
-  // L'editor ufficiale fissa il viewport a 1360px: su un telefono la nostra interfaccia risulterebbe minuscola
+  // L'editor ufficiale fissa il viewport a 940px (verticale) o 1360px: su un telefono la nostra interfaccia
+  // risulterebbe minuscola. Lo riscrive a ogni evento "resize" cercando il meta per id, quindi gli togliamo
+  // l'id: senza, non lo trova più e il nostro valore resta.
   let meta = document.getElementById('metaViewport') ?? document.querySelector('meta[name="viewport"]');
   if (!meta) {
     meta = document.createElement('meta');
     meta.setAttribute('name', 'viewport');
     document.head.appendChild(meta);
   }
+  meta.removeAttribute('id');
   meta.setAttribute('content', VIEWPORT);
 
   // Non smontiamo l'editor (React): lo nascondiamo e ci mettiamo sopra a schermo intero

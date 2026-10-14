@@ -53,8 +53,10 @@ The script runs inside the device's page with the same powers as the official ed
 
 * Two steps every time: open the Headrush, run the bookmark. It can't be installed as an app
   (the device's page is plain HTTP).
-* On iPhone/iPad Safari the bookmark runs from the bookmarks list; on Android Chrome you type its name
-  in the address bar; Firefox runs it from the bookmarks menu.
+* On iPhone/iPad Safari the bookmark runs from the bookmarks list. Chrome on Android may do nothing when
+  you tap a `javascript:` bookmark and strips that prefix when you paste: open the Headrush page, **type**
+  `javascript:` in the address bar and paste the script right after it (the page has a "Copy script only"
+  button). Firefox runs bookmarklets from the bookmarks menu.
 * A firmware update that tightens the device's content security policy would stop it from loading.
 
 ## Development
