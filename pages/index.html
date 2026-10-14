@@ -121,7 +121,7 @@
       limTitle: `Limiti`,
       lim1: `Devi aprire l'Headrush ed eseguire il segnalibro ogni volta. Non si può installare come app (la pagina dell'Headrush è in HTTP semplice).`,
       lim2: `Se un aggiornamento del firmware restringe la politica di sicurezza del dispositivo, lo script potrebbe non caricarsi più.`,
-      fail: `Headrush Remote Buttons: impossibile caricare o verificare lo script. Ricrea il segnalibro da `,
+      fail: `Headrush Remote Buttons: impossibile caricare o verificare lo script. Aprire la pagina per ricreare il segnalibro?`,
     },
     es: {
       tagline: `Un mando táctil para pedaleras Headrush (escenas y footswitches) que funciona en tu navegador. Sin aplicación ni servidor que instalar.`,
@@ -145,7 +145,7 @@
       limTitle: `Límites`,
       lim1: `Tienes que abrir el Headrush y ejecutar el marcador cada vez. No se puede instalar como aplicación (la página del Headrush usa HTTP sin cifrar).`,
       lim2: `Si una actualización del firmware endurece la política de seguridad del dispositivo, el script podría dejar de cargarse.`,
-      fail: `Headrush Remote Buttons: no se pudo cargar o verificar el script. Crea el marcador de nuevo desde `,
+      fail: `Headrush Remote Buttons: no se pudo cargar o verificar el script. ¿Abrir la página para crear el marcador de nuevo?`,
     },
     fr: {
       tagline: `Une télécommande tactile pour les pédaliers Headrush (scènes et footswitches) qui fonctionne dans votre navigateur. Aucune appli ni serveur à installer.`,
@@ -169,7 +169,7 @@
       limTitle: `Limites`,
       lim1: `Il faut ouvrir le Headrush et lancer le favori à chaque fois. Impossible de l'installer comme une appli (la page du Headrush est en HTTP simple).`,
       lim2: `Si une mise à jour du firmware durcit la politique de sécurité de l'appareil, le script risque de ne plus se charger.`,
-      fail: `Headrush Remote Buttons : impossible de charger ou de vérifier le script. Recréez le favori depuis `,
+      fail: `Headrush Remote Buttons : impossible de charger ou de vérifier le script. Ouvrir la page pour recréer le favori ?`,
     },
     de: {
       tagline: `Eine Touch-Fernbedienung für Headrush-Pedalboards (Szenen und Fußschalter), die im Browser läuft. Keine App, kein Server zu installieren.`,
@@ -193,7 +193,7 @@
       limTitle: `Einschränkungen`,
       lim1: `Du musst den Headrush jedes Mal öffnen und das Lesezeichen ausführen. Als App installieren geht nicht (die Headrush-Seite nutzt unverschlüsseltes HTTP).`,
       lim2: `Verschärft ein Firmware-Update die Sicherheitsrichtlinie des Geräts, wird das Skript möglicherweise nicht mehr geladen.`,
-      fail: `Headrush Remote Buttons: Das Skript konnte nicht geladen oder überprüft werden. Erstelle das Lesezeichen neu auf `,
+      fail: `Headrush Remote Buttons: Das Skript konnte nicht geladen oder überprüft werden. Seite öffnen, um das Lesezeichen neu zu erstellen?`,
     },
     pt: {
       tagline: `Um controle remoto por toque para pedaleiras Headrush (cenas e footswitches) que funciona no navegador. Sem app nem servidor para instalar.`,
@@ -217,7 +217,7 @@
       limTitle: `Limites`,
       lim1: `É preciso abrir o Headrush e executar o favorito a cada uso. Não dá para instalar como app (a página do Headrush usa HTTP simples).`,
       lim2: `Se uma atualização de firmware endurecer a política de segurança do dispositivo, o script pode deixar de carregar.`,
-      fail: `Headrush Remote Buttons: não foi possível carregar ou verificar o script. Crie o favorito de novo em `,
+      fail: `Headrush Remote Buttons: não foi possível carregar ou verificar o script. Abrir a página para criar o favorito de novo?`,
     },
     ja: {
       tagline: `ブラウザで動く Headrush ペダルボード用のタッチリモコン（シーンとフットスイッチ）。アプリもサーバーもインストール不要です。`,
@@ -241,7 +241,7 @@
       limTitle: `制限事項`,
       lim1: `使うたびに Headrush を開いてブックマークを実行する必要があります。アプリとしてインストールはできません（Headrush のページは暗号化されていない HTTP です）。`,
       lim2: `ファームウェア更新でデバイスのセキュリティポリシーが厳しくなると、スクリプトが読み込まれなくなる可能性があります。`,
-      fail: `Headrush Remote Buttons：スクリプトを読み込めないか、検証に失敗しました。次のページでブックマークレットを作り直してください：`,
+      fail: `Headrush Remote Buttons：スクリプトを読み込めないか、検証に失敗しました。ページを開いてブックマークレットを作り直しますか？`,
     },
     zh: {
       tagline: `在浏览器中运行的 Headrush 效果器触控遥控器（场景和脚踏开关）。无需安装应用，也无需服务器。`,
@@ -265,10 +265,10 @@
       limTitle: `限制`,
       lim1: `每次使用都需要先打开 Headrush 再运行书签。无法安装为应用（Headrush 的页面使用未加密的 HTTP）。`,
       lim2: `如果固件更新收紧了设备的安全策略，脚本可能无法再加载。`,
-      fail: `Headrush Remote Buttons：无法加载或验证脚本。请在以下页面重新创建书签小程序：`,
+      fail: `Headrush Remote Buttons：无法加载或验证脚本。要打开页面重新创建书签小程序吗？`,
     },
   };
-  const ENGLISH_FAIL = "Headrush Remote Buttons: could not load or verify the script. Create the bookmarklet again from ";
+  const ENGLISH_FAIL = "Headrush Remote Buttons: could not load or verify the script. Open the page to create the bookmarklet again?";
   const ENGLISH_COPIED = ["Copied.", "Copy failed: long-press the orange button."];
 
   const $ = (id) => document.getElementById(id);
@@ -291,10 +291,10 @@
   function bookmarklet() {
     const src = new URL(FILE, location.href).href;
     const page = location.href.split("#")[0];
-    const fail = t("fail") + page;
+    // se il file non si carica o l'impronta non coincide, propone di aprire questa pagina per ricreare il segnalibro
     return "javascript:(()=>{var s=document.createElement('script');s.src=" + JSON.stringify(src) +
-      ";s.integrity=" + JSON.stringify(INTEGRITY) + ";s.crossOrigin='anonymous';s.onerror=()=>alert(" + JSON.stringify(fail) +
-      ");document.head.appendChild(s)})();";
+      ";s.integrity=" + JSON.stringify(INTEGRITY) + ";s.crossOrigin='anonymous';s.onerror=()=>{if(confirm(" + JSON.stringify(t("fail")) +
+      "))location.href=" + JSON.stringify(page) + "};document.head.appendChild(s)})();";
   }
 
   function apply(next) {
