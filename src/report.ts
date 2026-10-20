@@ -20,12 +20,16 @@ export interface Report {
 export async function buildReport(snap: Snapshot | null): Promise<Report> {
   let device = 'unknown';
   let firmware = 'unknown';
+  let product = 'unknown';
+  let capabilities = '';
   let groups: Record<string, number> = {};
   let deviceError = '';
   try {
     const info = await getDeviceInfo();
     device = info.deviceName ?? device;
     firmware = info.appVersion ?? firmware;
+    product = info.product ?? product;
+    capabilities = info.capabilities;
     groups = info.keyGroups;
   } catch (e) {
     deviceError = e instanceof Error ? e.message : String(e);
@@ -38,6 +42,8 @@ export async function buildReport(snap: Snapshot | null): Promise<Report> {
   const head = [
     `Device: ${device}`,
     `Firmware: ${firmware}`,
+    `Product code: ${product}`,
+    ...(capabilities ? [`Capabilities: ${capabilities}`] : []),
     `Pedals detected: ${snap ? `${pedals.length} (per bank ${snap.perBank})` : 'unknown'}`,
     `Modes: scene=${count('scene')} latch=${count('latch')} hold=${count('hold')} empty=${count('empty')}`,
     `App build: ${BUILD}`,

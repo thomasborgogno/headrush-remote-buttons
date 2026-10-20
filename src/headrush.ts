@@ -3,6 +3,9 @@ import { log } from './log';
 const FS = '/api/v1/object-properties/Evil/Engine/FootSwitch';
 const RIG = '/api/v1/object-properties/Evil/Engine/Patch/Rig';
 const GUI = '/api/v1/object-properties/Evil/Gui';
+const RIGS = '/api/v1/object-properties/Evil/API/Rigs';
+const SETLISTS = '/api/v1/object-properties/Evil/API/Setlists';
+const RIGS_METHOD = '/api/v1/object-method/Evil/API/Rigs';
 
 // Ordine di FootSwitchColourN esposto dall'Headrush (-1 = non assegnato)
 const COLOURS = ['#2a2a30', '#2ecc71', '#1e8449', '#f1c40f', '#ff8c1a', '#e74c3c', '#ff6fb5',
@@ -108,19 +111,108 @@ let lastCount = 0;
 export interface DeviceInfo {
   deviceName?: string;
   appVersion?: string; // firmware
+  product?: string; // codice prodotto interno (es. HV01)
+  capabilities: string; // flag hardware esposti dall'API dei rig (hasSongView, is4Inch...)
   keyGroups: Record<string, number>; // nome della proprietà con le cifre sostituite da #, e quante ce ne sono
 }
 
 /** Modello, firmware e struttura delle proprietà dei footswitch: serve a capire modelli diversi dalla Core. */
 export async function getDeviceInfo(): Promise<DeviceInfo> {
-  const [gui, fs] = await Promise.all([getJson(GUI).catch(() => ({} as Props)), getJson(FS)]);
+  const [gui, rigs, fs] = await Promise.all([
+    getJson(GUI).catch(() => ({} as Props)),
+    getJson(RIGS).catch(() => ({} as Props)),
+    getJson(FS),
+  ]);
   const keyGroups: Record<string, number> = {};
   for (const k of Object.keys(fs)) {
     const g = k.replace(/\d+/g, '#');
     keyGroups[g] = (keyGroups[g] ?? 0) + 1;
   }
   const str = (v: unknown) => (typeof v === 'string' ? v : undefined);
-  return { deviceName: str(gui.DeviceName), appVersion: str(gui.AppVersion), keyGroups };
+  const capabilities = ['hasSongView', 'is4Inch', 'hasVocals', 'hasExtAmp', 'hasAltOut', 'hasSeperateOutput', 'hasExternalStorage']
+    .filter((k) => k in rigs)
+    .map((k) => `${k}=${rigs[k]}`)
+    .join(' ');
+  return { deviceName: str(gui.DeviceName), appVersion: str(gui.AppVersion), product: str(rigs.product), capabilities, keyGroups };
+}
+
+// --- Rig della setlist corrente ---------------------------------------------------------------------
+
+export interface RigItem { id: string; srId: string; name: string }
+export interface RigList {
+  setlist: string; // nome della setlist corrente
+  rigs: RigItem[]; // nell'ordine della setlist
+  current: number; // indice del rig caricato (-1 se non è nella setlist)
+  dirty: boolean; // il rig caricato ha modifiche non salvate
+}
+
+const strings = (v: unknown): string[] => (Array.isArray(v) ? v.map(String) : []);
+
+export async function readRigs(): Promise<RigList> {
+  const [rigs, lists] = await Promise.all([getJson(RIGS), getJson(SETLISTS)]);
+  const ids = strings(rigs.RigIds);
+  const names = strings(rigs.RigNames);
+  const srIds = strings(rigs.RigSrIds);
+  const items = ids.map((id, i) => ({ id, srId: srIds[i] ?? '', name: names[i] || `Rig ${i + 1}` }));
+  // come l'editor ufficiale: il rig attuale si riconosce da id + srId
+  const current = items.findIndex((r) => r.id === rigs.loadedID && r.srId === String(rigs.loadedSrID ?? ''));
+  return { setlist: String(lists.loadedName ?? ''), rigs: items, current, dirty: !!rigs.dirty };
+}
+
+/** Indice del rig precedente/successivo con ritorno all'inizio/alla fine, come nell'editor ufficiale. */
+export function stepIndex(list: RigList, delta: number): number {
+  const n = list.rigs.length;
+  let i = list.current + delta;
+  if (i >= n) i = 0;
+  if (i < 0) i = n - 1;
+  return i;
+}
+
+// L'unica chiamata di metodo che l'app può fare: caricare un rig della setlist corrente.
+// Salvare, rinominare o eliminare rig è vietato qui, prima della rete.
+const ALLOWED_METHODS = new Set(['loadRigConfirm']);
+
+export function assertMethodAllowed(method: string, args: unknown[], list: RigList) {
+  const [id, srId] = args;
+  if (!ALLOWED_METHODS.has(method)) throw new Error(`Chiamata non consentita: ${method}`);
+  if (args.length !== 2 || !list.rigs.some((r) => r.id === id && r.srId === srId)) {
+    throw new Error('Rig non presente nella setlist corrente');
+  }
+}
+
+async function callRigMethod(method: string, args: string[], list: RigList) {
+  assertMethodAllowed(method, args, list);
+  const res = await fetch(`${RIGS_METHOD}/${method}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ arguments: args }),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const out = (await res.json()) as { methodReturnValue?: unknown };
+  if (out.methodReturnValue === false) throw new Error(`${method} rifiutato dal dispositivo`);
+}
+
+/**
+ * Carica il rig `index` della setlist. Se il rig attuale ha modifiche non salvate chiede conferma
+ * (`confirmDiscard`) perché cambiare rig le scarta. Restituisce false se l'utente annulla.
+ */
+export async function loadRigAt(list: RigList, index: number, confirmDiscard: () => boolean): Promise<boolean> {
+  const rig = list.rigs[index];
+  if (!rig) return false;
+  // la lista può avere qualche secondo: rileggiamo "dirty" adesso
+  const fresh = await getJson(RIGS);
+  if (fresh.dirty && !confirmDiscard()) {
+    log('info', 'rig change cancelled (unsaved changes)');
+    return false;
+  }
+  try {
+    await callRigMethod('loadRigConfirm', [rig.id, rig.srId], list);
+    log('write', `loadRig ${index + 1}/${list.rigs.length}`);
+    return true;
+  } catch (e) {
+    log('error', `loadRig ${index + 1}/${list.rigs.length}: ${e instanceof Error ? e.message : e}`);
+    throw e;
+  }
 }
 
 export async function readSnapshot(): Promise<Snapshot> {

@@ -34,6 +34,8 @@ look in the pedalboard's network settings or in your router's list of connected 
 ## Using it
 
 * **Bank A / Bank B / All**: The footswitches are split in two halves: Bank B = the first half, Bank A = the second (Core: B = 1-5, A = 6-10). The number of footswitches is detected from the device. The choice is remembered.
+* **Rig menu (☰, top left)** lists the rigs of the current setlist: tap one to load it. The **‹ ›** arrows next to the rig
+  name go to the previous/next rig (wrapping around). If the current rig has unsaved changes on the Headrush, the app asks first.
 * **Scene** pedals: tap to select. Scenes with two states show **A/B**; tap the active scene again to toggle.
 * **Latch** pedals: tap to turn on/off.
 * **Hold** pedals: active while you keep your finger on them.
@@ -47,8 +49,10 @@ and Drum Machine are driven like a normal latch/hold press.
 The script runs inside the device's page with the same powers as the official editor.
 
 * The app can only write scene and footswitch state (`SceneActive`, `SceneState`, `FootSwitchOn`,
-  `FootswitchHeld`, all footswitches the device exposes); anything else is rejected before the request is made
-  (`assertWritable` in `src/headrush.ts`). It never saves, renames or deletes rigs.
+  `FootswitchHeld`, footswitches 1-32); anything else is rejected before the request is made
+  (`assertWritable` in `src/headrush.ts`). The only other thing it can do is load a rig of the current
+  setlist (`loadRigConfirm`, checked by `assertMethodAllowed`): every other method call is rejected.
+  It never saves, renames or deletes rigs.
 * Nothing is sent anywhere but to your Headrush. Only use bookmarklets from pages you trust.
 * The device has no password: anyone on your network can already control it.
 

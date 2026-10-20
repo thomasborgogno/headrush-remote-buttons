@@ -52,8 +52,9 @@
 
 <style>
   .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .75); display: grid; place-items: center; padding: 16px; z-index: 10; overflow: auto; }
-  .card { width: min(560px, 100%); max-height: 100%; overflow: auto; background: #17171d; border: 2px solid #2a2a33; border-radius: 18px; padding: 20px;
+  .card { width: min(560px, 100%); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow: auto; background: #17171d; border: 2px solid #2a2a33; border-radius: 18px; padding: 20px;
     display: flex; flex-direction: column; gap: 14px; color: #f2f2f5; }
+  .card > * { flex-shrink: 0; } /* l'editor imposta min-height:0 su tutto: evita che gli elementi si schiaccino */
   h2 { margin: 0; font-size: 1.3rem; }
   p { margin: 0; line-height: 1.45; }
   .muted { opacity: .7; font-size: .9rem; }
