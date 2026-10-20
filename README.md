@@ -8,7 +8,7 @@ Nothing to install: it runs in your browser, started with a bookmark.
 [![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal&logoColor=white)](https://paypal.me/thomasborgogno)
 
 > **Tested only on the Headrush Core.** It may also work with other models that have the same web
-> editor (Flex Prime, Pedalboard), but that has not been tried. Reports welcome.
+> editor (Prime, Flex Prime), but that has not been tried. Reports welcome.
 >
 > Unofficial project, not affiliated with Headrush / inalCo. It uses the same local HTTP API as the
 > device's own web editor. That API is undocumented and may change with firmware updates.
@@ -33,7 +33,7 @@ look in the pedalboard's network settings or in your router's list of connected 
 
 ## Using it
 
-* **Bank A / Bank B / All**: Bank A = footswitches 6-10, Bank B = footswitches 1-5. The choice is remembered.
+* **Bank A / Bank B / All**: The footswitches are split in two halves: Bank B = the first half, Bank A = the second (Core: B = 1-5, A = 6-10). The number of footswitches is detected from the device. The choice is remembered.
 * **Scene** pedals: tap to select. Scenes with two states show **A/B**; tap the active scene again to toggle.
 * **Latch** pedals: tap to turn on/off.
 * **Hold** pedals: active while you keep your finger on them.
@@ -47,7 +47,7 @@ and Drum Machine are driven like a normal latch/hold press.
 The script runs inside the device's page with the same powers as the official editor.
 
 * The app can only write scene and footswitch state (`SceneActive`, `SceneState`, `FootSwitchOn`,
-  `FootswitchHeld`, footswitches 1-10); anything else is rejected before the request is made
+  `FootswitchHeld`, all footswitches the device exposes); anything else is rejected before the request is made
   (`assertWritable` in `src/headrush.ts`). It never saves, renames or deletes rigs.
 * Nothing is sent anywhere but to your Headrush. Only use bookmarklets from pages you trust.
 * The device has no password: anyone on your network can already control it.
@@ -74,6 +74,19 @@ npm run build:pages   # builds pages-dist/ (remote.js + instructions page)
 (Settings → Pages → Source: GitHub Actions).
 
 Stack: TypeScript, Svelte 5, Vite (single-file IIFE bundle).
+
+## Feedback and diagnostics
+
+Tap the **?** button next to the connection dot:
+
+* **Contact on GitHub** opens a new issue with a technical log already filled in: device model and
+  firmware, the number and type of footswitches detected, the structure of the device's footswitch
+  properties and the recent events. It is extremely useful to add support for other models (Prime,
+  Flex Prime...). If the log is too long for a GitHub link, the oldest events are dropped first.
+* **Show log** lets you read exactly what will be attached. It does **not** include rig or footswitch
+  names or your IP address. The app sends nothing by itself: it only opens GitHub, and you decide
+  whether to post the issue.
+* **Back to the official editor** reloads the page.
 
 ## Support
 

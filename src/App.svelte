@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { readSnapshot, pressScene, toggleLatch, setHeld, type Pedal, type Snapshot } from './headrush';
   import { t, MODE_TAG } from './i18n';
+  import { log } from './log';
+  import Help from './Help.svelte';
 
   type View = 'A' | 'B' | 'ALL';
   const VIEWS: { id: View; label: string }[] = [
@@ -21,6 +23,7 @@
   let snap = $state<Snapshot | null>(null);
   let offline = $state(false);
   let view = $state<View>(loadView());
+  let helpOpen = $state(false);
   const held = new Set<number>();
 
   function setView(v: View) {
@@ -28,7 +31,7 @@
     try { localStorage.setItem('view', v); } catch {}
   }
 
-  // Disposizione fisica: riga alta = banco A (6..10), riga bassa = banco B (1..5)
+  // Disposizione fisica: riga alta = banco A (seconda metà dei pedali), riga bassa = banco B (prima metà)
   let rows = $derived.by(() => {
     const ps = snap?.pedals ?? [];
     const bank = (b: 'A' | 'B') => ps.filter((p) => p.bank === b);
@@ -38,8 +41,10 @@
   async function refresh() {
     try {
       snap = await readSnapshot();
+      if (offline) log('info', 'connection restored');
       offline = false;
-    } catch {
+    } catch (e) {
+      if (!offline) log('error', `connection lost: ${e instanceof Error ? e.message : e}`);
       offline = true;
     }
   }
@@ -104,10 +109,11 @@
   </nav>
   <span class="tools">
     <span class="dot" class:off={offline} title={offline ? t.unreachable : t.connected}></span>
+    <button class="help" aria-label={t.help} title={t.help} onclick={() => (helpOpen = true)}>?</button>
   </span>
 </header>
 
-<main class:offline>
+<main class:offline style:--cols={snap?.perBank ?? 5}>
   {#each rows as row}
     {@const visible = row.filter((x) => x.mode !== 'empty')}
     <section>
@@ -141,3 +147,5 @@
 </main>
 
 {#if offline}<div class="banner">{t.unreachable}</div>{/if}
+
+{#if helpOpen}<Help {snap} onclose={() => (helpOpen = false)} />{/if}
