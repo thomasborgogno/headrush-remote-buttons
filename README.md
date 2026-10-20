@@ -34,7 +34,7 @@ look in the pedalboard's network settings or in your router's list of connected 
 ## Using it
 
 * **Bank A / Bank B / All**: The footswitches are split in two halves: Bank B = the first half, Bank A = the second (Core: B = 1-5, A = 6-10). The number of footswitches is detected from the device. The choice is remembered.
-* **Rig menu (☰, top left)** lists the rigs of the current setlist: tap one to load it. The **‹ ›** arrows next to the rig
+* **Rig menu (☰, top left)** lists the rigs of the current setlist, each with its color: tap one to load it. The **‹ ›** arrows next to the rig
   name go to the previous/next rig (wrapping around). If the current rig has unsaved changes on the Headrush, the app asks first.
 * **Scene** pedals: tap to select. Scenes with two states show **A/B**; tap the active scene again to toggle.
 * **Latch** pedals: tap to turn on/off.

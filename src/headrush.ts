@@ -138,7 +138,11 @@ export async function getDeviceInfo(): Promise<DeviceInfo> {
 
 // --- Rig della setlist corrente ---------------------------------------------------------------------
 
-export interface RigItem { id: string; srId: string; name: string }
+// Colori dei rig: stessa serie dell'editor ufficiale (RigColors vale 1..9 e l'editor usa colorSeries[valore - 1])
+const RIG_COLOURS = ['#70e16c', '#95ca22', '#efd344', '#e28143', '#cb383c', '#d551fc', '#601cf1', '#284ba9', '#5db9dc',
+  '#ffffff', '#5d594f', '#08d8b0', '#505050'];
+
+export interface RigItem { id: string; srId: string; name: string; colour: string }
 export interface RigList {
   setlist: string; // nome della setlist corrente
   rigs: RigItem[]; // nell'ordine della setlist
@@ -153,7 +157,12 @@ export async function readRigs(): Promise<RigList> {
   const ids = strings(rigs.RigIds);
   const names = strings(rigs.RigNames);
   const srIds = strings(rigs.RigSrIds);
-  const items = ids.map((id, i) => ({ id, srId: srIds[i] ?? '', name: names[i] || `Rig ${i + 1}` }));
+  const colours = Array.isArray(rigs.RigColors) ? (rigs.RigColors as unknown[]) : [];
+  const colourOf = (v: unknown) => {
+    const idx = typeof v === 'number' ? v - 1 : 0; // come l'editor
+    return idx < 0 ? '#ffffff' : RIG_COLOURS[idx % RIG_COLOURS.length];
+  };
+  const items = ids.map((id, i) => ({ id, srId: srIds[i] ?? '', name: names[i] || `Rig ${i + 1}`, colour: colourOf(colours[i]) }));
   // come l'editor ufficiale: il rig attuale si riconosce da id + srId
   const current = items.findIndex((r) => r.id === rigs.loadedID && r.srId === String(rigs.loadedSrID ?? ''));
   return { setlist: String(lists.loadedName ?? ''), rigs: items, current, dirty: !!rigs.dirty };

@@ -39,7 +39,7 @@
         {#each list.rigs as rig, i (rig.id + rig.srId)}
           <li>
             <button type="button" class:current={i === list.current} disabled={busy} onclick={() => onpick(i)}>
-              <span class="n">{i + 1}</span>
+              <span class="swatch" style:background={rig.colour} aria-hidden="true"></span>
               <span class="name">{rig.name}</span>
               {#if i === list.current}<span class="tick" aria-hidden="true">●</span>{/if}
             </button>
@@ -69,7 +69,7 @@
     padding: 14px 14px; min-height: 52px; border-radius: 12px; border: 2px solid #34343e; background: #20202a; color: inherit; cursor: pointer; }
   li button:disabled { opacity: .6; cursor: default; }
   li button.current { border-color: #ff5a1f; background: #2a1d17; }
-  .n { opacity: .5; min-width: 1.6em; font-variant-numeric: tabular-nums; }
+  .swatch { flex: none; width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, .3); }
   .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
   .tick { color: #ff5a1f; }
   .close { align-self: flex-end; font: inherit; font-weight: 600; background: none; border: 0; color: inherit; opacity: .7; padding: 12px 8px; cursor: pointer; }
